@@ -11,6 +11,7 @@ import ProductDetail from './pages/ProductDetail'
 import CustomCake from './pages/CustomCake'
 import CartPage from './pages/CartPage'
 import Checkout from './pages/Checkout'
+import CheckoutSuccess from './pages/CheckoutSuccess'
 import OrderTracking from './pages/OrderTracking'
 import Account from './pages/Account'
 import About from './pages/About'
@@ -39,6 +40,7 @@ function AppRoutes() {
       <Route path="/custom" element={<CustomCake />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/checkout/success" element={<CheckoutSuccess />} />
       <Route path="/tracking" element={<OrderTracking />} />
       <Route path="/account" element={<Account />} />
       <Route path="/about" element={<About />} />
