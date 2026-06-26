@@ -212,6 +212,15 @@ CREATE POLICY "public_read_reviews" ON reviews FOR SELECT USING (is_approved = t
 CREATE POLICY "public_read_tracking" ON delivery_tracking FOR SELECT USING (true);
 CREATE POLICY "public_insert_tracking" ON delivery_tracking FOR INSERT WITH CHECK (true);
 
+-- Admin panel write access (frontend gated by Firebase admin email)
+CREATE POLICY "admin_manage_products" ON products FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "admin_manage_categories" ON categories FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "admin_manage_coupons" ON coupons FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "admin_update_orders" ON orders FOR UPDATE USING (true);
+CREATE POLICY "admin_update_custom" ON custom_cake_orders FOR UPDATE USING (true);
+CREATE POLICY "admin_read_contact" ON contact_messages FOR SELECT USING (true);
+CREATE POLICY "admin_update_contact" ON contact_messages FOR UPDATE USING (true);
+
 -- ═══ SEED DATA ═══
 INSERT INTO categories (slug, name_en, name_ar, sort_order) VALUES
   ('wedding', 'Wedding', 'أعراس', 1),

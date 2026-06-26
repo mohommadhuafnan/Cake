@@ -117,6 +117,20 @@ export async function getAllOrders() {
   return data || []
 }
 
+export async function updateOrderStatus(id, status) {
+  const db = requireSupabase()
+  const { data, error } = await db
+    .from('orders')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+
+  await db.from('delivery_tracking').insert({ order_id: id, status, notes: `Status updated to ${status}` })
+  return data
+}
+
 export async function submitContactMessage(form) {
   const db = requireSupabase()
   const { error } = await db.from('contact_messages').insert({
