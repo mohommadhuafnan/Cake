@@ -10,6 +10,16 @@ function requireDb() {
   return supabase
 }
 
+function wrapDbError(error) {
+  const msg = error?.message || ''
+  if (msg.includes('site_settings') || msg.includes('cms_blocks') || (msg.includes('categories') && msg.includes('name'))) {
+    throw new Error(
+      'Database needs updating. Run backend/migrations/supabase_fix_all.sql in Supabase SQL Editor, then refresh.',
+    )
+  }
+  throw error
+}
+
 function readLocal(key, fallback = []) {
   try {
     const raw = localStorage.getItem(key)
@@ -36,9 +46,9 @@ export async function getAdminProducts() {
   const db = requireDb()
   const { data, error } = await db
     .from('products')
-    .select('*, categories(id, slug, name)')
+    .select('*, categories(id, slug)')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
@@ -53,9 +63,9 @@ export async function createProduct(product) {
   const { data, error } = await db
     .from('products')
     .insert({ ...product, updated_at: new Date().toISOString() })
-    .select('*, categories(id, slug, name)')
+    .select('*, categories(id, slug)')
     .single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
@@ -71,9 +81,9 @@ export async function updateProduct(id, product) {
     .from('products')
     .update({ ...product, updated_at: new Date().toISOString() })
     .eq('id', id)
-    .select('*, categories(id, slug, name)')
+    .select('*, categories(id, slug)')
     .single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
@@ -84,7 +94,7 @@ export async function deleteProduct(id) {
   }
   const db = requireDb()
   const { error } = await db.from('products').delete().eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 // ─── Categories ───
@@ -100,7 +110,7 @@ export async function getAdminCategories() {
   }
   const db = requireDb()
   const { data, error } = await db.from('categories').select('*').order('sort_order')
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
@@ -113,7 +123,7 @@ export async function createCategory(category) {
   }
   const db = requireDb()
   const { data, error } = await db.from('categories').insert(category).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
@@ -126,7 +136,7 @@ export async function updateCategory(id, category) {
   }
   const db = requireDb()
   const { data, error } = await db.from('categories').update(category).eq('id', id).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
@@ -137,7 +147,7 @@ export async function deleteCategory(id) {
   }
   const db = requireDb()
   const { error } = await db.from('categories').delete().eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 // ─── Coupons ───
@@ -145,28 +155,28 @@ export async function deleteCategory(id) {
 export async function getAdminCoupons() {
   const db = requireDb()
   const { data, error } = await db.from('coupons').select('*').order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
 export async function createCoupon(coupon) {
   const db = requireDb()
   const { data, error } = await db.from('coupons').insert(coupon).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
 export async function updateCoupon(id, coupon) {
   const db = requireDb()
   const { data, error } = await db.from('coupons').update(coupon).eq('id', id).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
 export async function deleteCoupon(id) {
   const db = requireDb()
   const { error } = await db.from('coupons').delete().eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 // ─── Custom orders ───
@@ -177,7 +187,7 @@ export async function getAdminCustomOrders() {
     .from('custom_cake_orders')
     .select('*')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
@@ -186,7 +196,7 @@ export async function updateCustomOrderStatus(id, status, quotedPrice = null) {
   const payload = { status }
   if (quotedPrice != null) payload.quoted_price = quotedPrice
   const { data, error } = await db.from('custom_cake_orders').update(payload).eq('id', id).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data
 }
 
@@ -198,12 +208,12 @@ export async function getContactMessages() {
     .from('contact_messages')
     .select('*')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
 export async function markContactRead(id) {
   const db = requireDb()
   const { error } = await db.from('contact_messages').update({ is_read: true }).eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }

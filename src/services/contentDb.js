@@ -24,6 +24,21 @@ function requireDb() {
   return supabase
 }
 
+function wrapDbError(error) {
+  const msg = error?.message || ''
+  if (msg.includes('site_settings') || msg.includes('cms_blocks')) {
+    throw new Error(
+      'CMS tables missing. Open Supabase → SQL Editor → run the file backend/migrations/supabase_fix_all.sql → then refresh this page.',
+    )
+  }
+  if (msg.includes('categories') && msg.includes('name')) {
+    throw new Error(
+      'Database columns outdated. Run backend/migrations/supabase_fix_all.sql in Supabase SQL Editor, then refresh.',
+    )
+  }
+  throw error
+}
+
 function mapBlock(row) {
   return {
     id: row.id,
@@ -51,7 +66,7 @@ export async function getSiteSettings() {
 
   const db = requireDb()
   const { data, error } = await db.from('site_settings').select('key, value')
-  if (error) throw error
+  if (error) wrapDbError(error)
 
   const settings = { ...DEFAULT_SETTINGS }
   ;(data || []).forEach((row) => {
@@ -76,7 +91,7 @@ export async function updateSiteSettings(updates) {
   }))
 
   const { error } = await db.from('site_settings').upsert(rows, { onConflict: 'key' })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return getSiteSettings()
 }
 
@@ -105,7 +120,7 @@ export async function getCmsBlocks(type = null) {
   let query = db.from('cms_blocks').select('*').order('sort_order')
   if (type) query = query.eq('type', type)
   const { data, error } = await query
-  if (error) throw error
+  if (error) wrapDbError(error)
   return (data || []).map(mapBlock).filter((b) => b.is_active !== false)
 }
 
@@ -124,7 +139,7 @@ export async function getAdminCmsBlocks(type = null) {
   let query = db.from('cms_blocks').select('*').order('sort_order')
   if (type) query = query.eq('type', type)
   const { data, error } = await query
-  if (error) throw error
+  if (error) wrapDbError(error)
   return (data || []).map(mapBlock)
 }
 
@@ -152,7 +167,7 @@ export async function createCmsBlock(block) {
 
   const db = requireDb()
   const { data, error } = await db.from('cms_blocks').insert(payload).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return mapBlock(data)
 }
 
@@ -179,7 +194,7 @@ export async function updateCmsBlock(id, block) {
 
   const db = requireDb()
   const { data, error } = await db.from('cms_blocks').update(payload).eq('id', id).select().single()
-  if (error) throw error
+  if (error) wrapDbError(error)
   return mapBlock(data)
 }
 
@@ -193,7 +208,7 @@ export async function deleteCmsBlock(id) {
   }
   const db = requireDb()
   const { error } = await db.from('cms_blocks').delete().eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 // ─── Reviews (admin) ───
@@ -204,20 +219,20 @@ export async function getAdminReviews() {
     .from('reviews')
     .select('*, products(name)')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
 export async function updateReviewApproval(id, isApproved) {
   const db = requireDb()
   const { error } = await db.from('reviews').update({ is_approved: isApproved }).eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 export async function deleteReview(id) {
   const db = requireDb()
   const { error } = await db.from('reviews').delete().eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
 
 // ─── Newsletter (admin) ───
@@ -228,12 +243,12 @@ export async function getNewsletterSubscribers() {
     .from('newsletter_subscribers')
     .select('*')
     .order('subscribed_at', { ascending: false })
-  if (error) throw error
+  if (error) wrapDbError(error)
   return data || []
 }
 
 export async function toggleNewsletterSubscriber(id, isActive) {
   const db = requireDb()
   const { error } = await db.from('newsletter_subscribers').update({ is_active: isActive }).eq('id', id)
-  if (error) throw error
+  if (error) wrapDbError(error)
 }
