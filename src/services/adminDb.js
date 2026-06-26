@@ -17,6 +17,11 @@ function wrapDbError(error) {
       'Database needs updating. Run backend/migrations/supabase_fix_all.sql in Supabase SQL Editor, then refresh.',
     )
   }
+  if (msg.includes("'category'") && msg.includes('products')) {
+    throw new Error(
+      'Product save error fixed in latest update — refresh the page and try again. If it persists, run supabase_fix_all.sql.',
+    )
+  }
   throw error
 }
 
@@ -35,6 +40,23 @@ function writeLocal(key, data) {
 
 export function isAdminDbLive() {
   return isSupabaseConfigured()
+}
+
+/** Only columns that exist on the Supabase `products` table */
+function toSupabaseProductRow(product) {
+  return {
+    name: product.name,
+    description: product.description ?? '',
+    price: product.price,
+    category_id: product.category_id ?? null,
+    image: product.image ?? '',
+    images: product.images ?? (product.image ? [product.image] : []),
+    stock: product.stock ?? 0,
+    rating: product.rating ?? 4.5,
+    reviews: product.reviews ?? 0,
+    popular: product.popular ?? 80,
+    is_active: product.is_active !== false,
+  }
 }
 
 // ─── Products ───
@@ -60,9 +82,10 @@ export async function createProduct(product) {
     return row
   }
   const db = requireDb()
+  const row = toSupabaseProductRow(product)
   const { data, error } = await db
     .from('products')
-    .insert({ ...product, updated_at: new Date().toISOString() })
+    .insert({ ...row, updated_at: new Date().toISOString() })
     .select('*, categories(id, slug)')
     .single()
   if (error) wrapDbError(error)
@@ -77,9 +100,12 @@ export async function updateProduct(id, product) {
     return next.find((p) => p.id === id)
   }
   const db = requireDb()
+  const row = product.is_active !== undefined && Object.keys(product).length === 1
+    ? { is_active: product.is_active }
+    : toSupabaseProductRow(product)
   const { data, error } = await db
     .from('products')
-    .update({ ...product, updated_at: new Date().toISOString() })
+    .update({ ...row, updated_at: new Date().toISOString() })
     .eq('id', id)
     .select('*, categories(id, slug)')
     .single()

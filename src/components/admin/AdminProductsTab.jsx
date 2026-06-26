@@ -42,12 +42,10 @@ export default function AdminProductsTab() {
     setSaving(true)
     setError('')
     try {
-      const cat = categories.find((c) => String(c.id) === String(data.category_id))
-      const payload = { ...data, category: cat?.slug || 'birthday' }
       if (editing) {
-        await updateProduct(editing.id, payload)
+        await updateProduct(editing.id, data)
       } else {
-        await createProduct(payload)
+        await createProduct(data)
       }
       setModalOpen(false)
       await load()
@@ -125,7 +123,7 @@ export default function AdminProductsTab() {
                   <td className="p-4">
                     <p className="font-medium">{p.name || p.name_en}</p>
                   </td>
-                  <td className="p-4 capitalize text-muted">{p.categories?.slug || p.category || '—'}</td>
+                  <td className="p-4 capitalize text-muted">{p.categories?.slug || '—'}</td>
                   <td className="p-4 font-medium">{formatPrice(Number(p.price), 'en')}</td>
                   <td className="p-4">
                     <span className={p.stock <= 3 ? 'text-red-500 font-medium' : ''}>{p.stock}</span>

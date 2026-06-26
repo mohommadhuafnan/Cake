@@ -21,11 +21,14 @@ export default function AdminProductModal({ open, product, categories, onClose, 
   useEffect(() => {
     if (!open) return
     if (product) {
+      const catId = product.category_id
+        ?? product.categories?.id
+        ?? categories.find((c) => c.slug === product.categories?.slug)?.id
       setForm({
         name: product.name || product.name_en || '',
         description: product.description || product.description_en || '',
         price: String(product.price ?? ''),
-        category_id: String(product.category_id ?? ''),
+        category_id: catId != null ? String(catId) : '',
         image: product.image || '',
         stock: String(product.stock ?? 10),
         rating: String(product.rating ?? 4.5),
