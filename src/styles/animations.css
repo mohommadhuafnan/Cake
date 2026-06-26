@@ -1,0 +1,524 @@
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .scroll-progress-bar,
+  .parallax-bg,
+  .floating-cake,
+  .fade-up,
+  .slide-image,
+  .stagger-card,
+  .hero-headline,
+  .hero-subtext,
+  .progress-bar-fill,
+  .testimonial-track,
+  .whatsapp-pulse,
+  .cart-badge-pop,
+  .add-to-cart-pop {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ─── Scroll Progress Bar ─── */
+.scroll-progress-bar {
+  position: fixed;
+  top: 36px;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: #C9A84C;
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* ─── Navbar Shrink ─── */
+.navbar {
+  transition: padding 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.navbar.navbar--shrunk {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  box-shadow: 0 4px 24px rgba(26, 26, 26, 0.06);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+}
+
+.navbar.navbar--shrunk .navbar-logo {
+  font-size: 1.25rem;
+}
+
+.navbar.navbar--shrunk .navbar-link {
+  font-size: 0.8rem;
+}
+
+.navbar-logo {
+  transition: font-size 0.4s ease;
+}
+
+.navbar-link {
+  transition: font-size 0.4s ease, color 0.3s ease;
+}
+
+/* ─── Parallax Hero ─── */
+.parallax-bg {
+  will-change: transform;
+}
+
+/* ─── Floating Cake Elements ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+.floating-cake {
+  animation: float 4s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+.floating-cake--delay-1 { animation-delay: 0.5s; }
+.floating-cake--delay-2 { animation-delay: 1s; }
+.floating-cake--delay-3 { animation-delay: 1.5s; }
+
+/* ─── Page Load Hero ─── */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-headline {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.3s forwards;
+}
+
+.hero-subtext {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.5s forwards;
+}
+
+.hero-cta {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.7s forwards;
+}
+
+/* ─── Fade Up on Scroll ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Image Slide Left/Right ─── */
+.slide-image {
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.slide-image--left {
+  transform: translateX(-80px);
+}
+
+.slide-image--right {
+  transform: translateX(80px);
+}
+
+.slide-image.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── Staggered Cards ─── */
+.stagger-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.stagger-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Product Card Hover ─── */
+.product-card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(26, 26, 26, 0.12);
+}
+
+.product-card__image {
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-card__image {
+  transform: scale(1.08) rotate(2deg);
+}
+
+/* ─── Add to Cart Pop ─── */
+@keyframes cartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.add-to-cart-pop {
+  animation: cartPop 0.4s ease;
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.cart-badge-pop {
+  animation: badgePop 0.4s ease;
+}
+
+/* ─── Progress Bars ─── */
+.progress-bar-fill {
+  width: 0%;
+  transition: width 1.2s ease;
+}
+
+.progress-bar-fill.visible {
+  width: var(--target-width);
+}
+
+/* ─── Testimonials Carousel ─── */
+.testimonial-track {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+/* ─── WhatsApp Pulse ─── */
+@keyframes whatsappPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-pulse {
+  animation: whatsappPulse 2s ease infinite;
+}
+
+/* ─── Shimmer CTA ─── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-shimmer {
+  background: linear-gradient(90deg, #1A1A1A 0%, #C9A84C 50%, #1A1A1A 100%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ─── Cart Drawer ─── */
+.cart-drawer {
+  transform: translateX(100%);
+  transition: transform 0.4s ease;
+}
+
+.cart-drawer.open {
+  transform: translateX(0);
+}
+
+[dir="rtl"] .cart-drawer {
+  transform: translateX(-100%);
+}
+
+[dir="rtl"] .cart-drawer.open {
+  transform: translateX(0);
+}
+
+/* ─── Mobile Menu ─── */
+.mobile-menu {
+  transform: translateX(100%);
+  transition: transform 0.4s ease;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+[dir="rtl"] .mobile-menu {
+  transform: translateX(-100%);
+}
+
+[dir="rtl"] .mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* ─── Loading Screen ─── */
+@keyframes logoReveal {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.loading-logo {
+  animation: logoReveal 1s ease forwards;
+}
+
+/* ─── Skeleton ─── */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.skeleton {
+  animation: skeletonPulse 1.5s ease infinite;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+}
+
+/* ─── Nav Active Underline ─── */
+.nav-link-active {
+  position: relative;
+}
+
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #C9A84C;
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #C9A84C;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─── Carousel & Premium Cards ─── */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes shimmerGold {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.showcase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(201, 168, 76, 0.08));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.showcase-card:hover::before {
+  opacity: 1;
+}
+
+.offer-card {
+  box-shadow: 0 4px 20px rgba(26, 26, 26, 0.06);
+}
+
+.hero-banner-image {
+  animation: float 5s ease-in-out infinite;
+}
+
+.compact-product-card:hover {
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
+.promo-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.offer-popup {
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+@keyframes announcementSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.announcement-slide {
+  animation: announcementSlide 0.5s ease;
+}
+
+/* ─── Typewriter Cursor ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter-cursor {
+  color: #C9A84C;
+  font-weight: 300;
+  animation: blink 0.8s ease infinite;
+  margin-inline-start: 2px;
+}
+
+.typewriter-cursor--done {
+  animation: none;
+  opacity: 0;
+}
+
+/* ─── Hero Background Ken Burns ─── */
+@keyframes kenBurns {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1.12); }
+}
+
+.hero-bg-slide img {
+  animation: kenBurns 8s ease-in-out infinite alternate;
+}
+
+/* ─── Scroll Down Indicator ─── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+.scroll-down-arrow {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-down-btn:hover .scroll-down-arrow {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-down-arrow {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-slide img {
+    animation: none;
+  }
+  .typewriter-cursor {
+    animation: none;
+    opacity: 0;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* ─── Infinite Marquee Carousel — seamless pixel-perfect loop ─── */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-1 * var(--marquee-distance, 50%)), 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-rtl {
+  from {
+    transform: translate3d(calc(-1 * var(--marquee-distance, 50%)), 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.carousel-viewport {
+  overflow: hidden;
+}
+
+.marquee-track {
+  animation: none;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.marquee-track.marquee-track--ready {
+  animation: marquee-scroll var(--marquee-duration, 28s) linear infinite;
+}
+
+[dir="rtl"] .marquee-track.marquee-track--ready {
+  animation-name: marquee-scroll-rtl;
+}
+
+.marquee-set--clone {
+  pointer-events: none;
+  user-select: none;
+}
+
+.marquee-set {
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+  .carousel-viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+.carousel-card-slot {
+  flex-shrink: 0;
+}
+
+/* ─── Navbar shrink with glass ─── */
+.navbar.navbar--shrunk {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 4px 24px rgba(26, 26, 26, 0.06);
+}
+

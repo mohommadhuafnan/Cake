@@ -1,0 +1,185 @@
+{
+  "brand": "Maison Douceur",
+  "tagline": "Artisan Luxury Cakes",
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "custom": "Custom Order",
+    "about": "About",
+    "contact": "Contact",
+    "account": "Account",
+    "cart": "Cart",
+    "admin": "Admin"
+  },
+  "hero": {
+    "title": "Crafted with Passion, Baked with Love",
+    "subtitle": "Experience Qatar's finest artisan cakes — handcrafted for life's most precious moments.",
+    "cta": "Explore Collection",
+    "ctaSecondary": "Custom Order",
+    "scrollDown": "Scroll Down"
+  },
+  "gallery": {
+    "title": "Our Gallery",
+    "subtitle": "Every creation, beautifully crafted"
+  },
+  "featured": {
+    "title": "Featured Creations",
+    "subtitle": "Our most beloved masterpieces"
+  },
+  "categories": {
+    "title": "Collections",
+    "subtitle": "Find the perfect cake for every occasion",
+    "wedding": "Wedding",
+    "birthday": "Birthday",
+    "corporate": "Corporate",
+    "seasonal": "Seasonal"
+  },
+  "stats": {
+    "orders": "Orders Delivered",
+    "customers": "Happy Customers",
+    "years": "Years of Excellence"
+  },
+  "about": {
+    "title": "Our Story",
+    "subtitle": "A legacy of sweetness in Qatar",
+    "text": "Founded in the heart of Doha, Maison Douceur has been crafting exquisite cakes that transform celebrations into unforgettable memories. Every creation is a work of art, made with the finest ingredients sourced from around the world."
+  },
+  "testimonials": {
+    "title": "What Our Clients Say"
+  },
+  "shop": {
+    "title": "All Cakes",
+    "subtitle": "Browse our complete collection",
+    "search": "Search cakes...",
+    "filter": "Filter by category",
+    "all": "All",
+    "addToCart": "Add to Cart",
+    "quickView": "Quick View",
+    "outOfStock": "Out of Stock"
+  },
+  "product": {
+    "reviews": "Reviews",
+    "description": "Description",
+    "quantity": "Quantity",
+    "addToCart": "Add to Cart",
+    "addToWishlist": "Add to Wishlist",
+    "related": "You May Also Like"
+  },
+  "custom": {
+    "title": "Custom Cake Order",
+    "subtitle": "Tell us about your dream cake",
+    "step1": "Details",
+    "step2": "Design",
+    "step3": "Delivery",
+    "step4": "Confirm",
+    "size": "Cake Size",
+    "flavor": "Flavor",
+    "design": "Design Description",
+    "date": "Delivery Date",
+    "notes": "Special Notes",
+    "submit": "Submit Request"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "coupon": "Coupon Code",
+    "apply": "Apply"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "step1": "Information",
+    "step2": "Shipping",
+    "step3": "Payment",
+    "step4": "Confirmation",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Delivery Address",
+    "city": "City",
+    "payment": "Payment Method",
+    "card": "Credit Card",
+    "whatsapp": "Order via WhatsApp",
+    "placeOrder": "Place Order",
+    "success": "Order Confirmed!",
+    "successMsg": "Thank you for your order. We'll begin crafting your cake shortly."
+  },
+  "tracking": {
+    "title": "Track Your Order",
+    "placeholder": "Enter order number",
+    "search": "Track",
+    "status": {
+      "pending": "Order Received",
+      "confirmed": "Confirmed",
+      "baking": "Being Prepared",
+      "ready": "Ready for Delivery",
+      "delivered": "Delivered"
+    }
+  },
+  "account": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "logout": "Sign Out",
+    "dashboard": "Dashboard",
+    "orders": "Order History",
+    "profile": "Profile",
+    "addresses": "Addresses",
+    "password": "Password"
+  },
+  "auth": {
+    "backHome": "Back to home",
+    "loginSubtitle": "Welcome back — sign in to your account.",
+    "signupSubtitle": "Join us and start ordering artisan cakes.",
+    "panelSignupTitle": "Begin Your Sweet Journey",
+    "panelSignupSubtitle": "Create an account to save favorites, track orders, and unlock member offers.",
+    "panelLoginTitle": "Welcome Back",
+    "panelLoginSubtitle": "Already part of the family? Sign in to access your orders and preferences.",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "We'd love to hear from you",
+    "name": "Your Name",
+    "email": "Your Email",
+    "message": "Your Message",
+    "send": "Send Message",
+    "success": "Message sent successfully!"
+  },
+  "footer": {
+    "newsletter": "Subscribe to Our Newsletter",
+    "emailPlaceholder": "Your email address",
+    "subscribe": "Subscribe",
+    "subscribeSuccess": "Thank you for subscribing!",
+    "rights": "All rights reserved."
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "customers": "Customers",
+    "coupons": "Coupons",
+    "customOrders": "Custom Orders",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "currency": "QAR",
+    "view": "Learn More",
+    "viewAll": "View All"
+  }
+}

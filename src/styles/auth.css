@@ -1,0 +1,268 @@
+.auth-shell {
+  --auth-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --auth-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-height: 100dvh;
+  padding-top: max(1.5rem, env(safe-area-inset-top));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.auth-gradient-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(201, 168, 76, 0.35), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 80%, rgba(245, 230, 232, 0.5), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(26, 26, 26, 0.08), transparent 45%),
+    linear-gradient(145deg, #0f0f12 0%, #1a1a22 40%, #12121a 100%);
+}
+
+.auth-gradient-bg--signup {
+  background:
+    radial-gradient(ellipse 80% 60% at 80% 25%, rgba(201, 168, 76, 0.42), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 15% 75%, rgba(232, 213, 163, 0.35), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(245, 230, 232, 0.25), transparent 45%),
+    linear-gradient(145deg, #12121a 0%, #1f1a24 40%, #0f0f12 100%);
+}
+
+/* Dark panel — always readable white/gold text */
+.auth-glass-panel {
+  background: linear-gradient(
+    152deg,
+    #141414 0%,
+    #1f1b17 42%,
+    #2a241c 100%
+  );
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(201, 168, 76, 0.12),
+    0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.auth-glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(201, 168, 76, 0.18), transparent 65%);
+  pointer-events: none;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 4px 24px rgba(26, 26, 26, 0.08),
+    0 24px 64px rgba(26, 26, 26, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.auth-panel-brand {
+  color: #e8d5a3;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.auth-panel-title {
+  color: #ffffff;
+  font-family: var(--font-display);
+}
+
+.auth-panel-subtitle {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.auth-input {
+  background: rgba(250, 247, 242, 0.85);
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  box-shadow:
+    inset 2px 2px 6px rgba(26, 26, 26, 0.04),
+    inset -1px -1px 4px rgba(255, 255, 255, 0.8);
+  transition:
+    border-color 0.35s var(--auth-ease),
+    box-shadow 0.35s var(--auth-ease),
+    transform 0.35s var(--auth-spring);
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: rgba(201, 168, 76, 0.55);
+  box-shadow:
+    inset 2px 2px 6px rgba(26, 26, 26, 0.03),
+    0 0 0 3px rgba(201, 168, 76, 0.15),
+    0 0 24px rgba(201, 168, 76, 0.12);
+  transform: translateY(-1px);
+}
+
+.auth-btn-glow {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #ffffff;
+  box-shadow:
+    0 4px 16px rgba(26, 26, 26, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    box-shadow 0.4s var(--auth-ease),
+    transform 0.35s var(--auth-spring),
+    background 0.4s var(--auth-ease);
+}
+
+.auth-btn-glow:hover {
+  background: linear-gradient(135deg, #c9a84c 0%, #b8943f 100%);
+  color: #1a1a1a;
+  box-shadow:
+    0 8px 32px rgba(201, 168, 76, 0.45),
+    0 0 48px rgba(201, 168, 76, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.auth-btn-glow:active {
+  transform: translateY(0);
+}
+
+.auth-btn-ghost {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: #e8d5a3;
+  border: 1.5px solid rgba(201, 168, 76, 0.55);
+  backdrop-filter: blur(8px);
+  transition:
+    background 0.35s var(--auth-ease),
+    box-shadow 0.35s var(--auth-ease),
+    transform 0.35s var(--auth-spring),
+    color 0.35s var(--auth-ease);
+}
+
+.auth-btn-ghost:hover {
+  background: rgba(201, 168, 76, 0.18);
+  color: #ffffff;
+  border-color: rgba(201, 168, 76, 0.85);
+  box-shadow: 0 0 32px rgba(201, 168, 76, 0.2);
+  transform: translateY(-1px);
+}
+
+.auth-back-link {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.auth-back-link:hover {
+  color: #ffffff;
+}
+
+.auth-mode-toggle {
+  color: #6b6b6b;
+}
+
+.auth-mode-toggle button {
+  color: #c9a84c;
+  font-weight: 500;
+}
+
+/* ── Mobile (< 640px) ── */
+@media (max-width: 639px) {
+  .auth-shell {
+    padding-inline: 0.75rem;
+    align-items: flex-start;
+    padding-top: max(4.5rem, env(safe-area-inset-top));
+  }
+
+  .auth-card {
+    border-radius: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .auth-form-col {
+    padding: 1.25rem 1.25rem 1.75rem;
+  }
+
+  .auth-panel-title {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  .auth-mobile-strip {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* ── Small phones landscape / large phones (640px – 767px) ── */
+@media (min-width: 640px) and (max-width: 767px) {
+  .auth-form-col {
+    padding: 2rem 2rem 2.5rem;
+  }
+
+  .auth-card-inner {
+    min-height: 520px;
+  }
+}
+
+/* ── Tablet (768px – 1023px) ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .auth-card {
+    max-width: 720px;
+  }
+
+  .auth-card-inner {
+    min-height: 560px;
+  }
+
+  .auth-form-col {
+    padding: 2rem 2.25rem;
+  }
+
+  .auth-glass-panel {
+    padding: 2rem;
+  }
+
+  .auth-panel-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* ── Desktop (1024px – 1279px) ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .auth-card {
+    max-width: 880px;
+  }
+
+  .auth-card-inner {
+    min-height: 600px;
+  }
+}
+
+/* ── Large desktop (1280px+) ── */
+@media (min-width: 1280px) {
+  .auth-card {
+    max-width: 960px;
+  }
+
+  .auth-card-inner {
+    min-height: 640px;
+  }
+
+  .auth-form-col {
+    padding: 3rem;
+  }
+
+  .auth-glass-panel {
+    padding: 3rem;
+  }
+}
+
+/* Touch devices — disable cursor glow */
+@media (hover: none), (pointer: coarse) {
+  .auth-cursor-glow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-shell *,
+  .auth-shell *::before,
+  .auth-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
