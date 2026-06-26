@@ -15,28 +15,36 @@ export const categoryNav = [
 
 export const showcaseCategories = [
   {
-    id: 'signature',
-    title: 'Signature Cakes',
-    subtitle: 'Our finest handcrafted masterpieces',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80',
+    id: 'wedding',
+    title: 'Wedding Cakes',
+    subtitle: 'Elegant tiers for your perfect day',
+    image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=600&q=80',
     bg: 'bg-[#FFF8E7]',
     link: 'shop?category=wedding',
   },
   {
-    id: 'celebration',
-    title: 'Celebration Cakes',
-    subtitle: 'Perfect for every special moment',
+    id: 'birthday',
+    title: 'Birthday Cakes',
+    subtitle: 'Celebrate every age in style',
     image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80',
     bg: 'bg-blush',
     link: 'shop?category=birthday',
   },
   {
-    id: 'slices',
-    title: 'Cake Slices & Bites',
-    subtitle: 'Indulgent portions, same luxury taste',
-    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80',
+    id: 'corporate',
+    title: 'Corporate Cakes',
+    subtitle: 'Impress at every business event',
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80',
+    bg: 'bg-[#F0F4F8]',
+    link: 'shop?category=corporate',
+  },
+  {
+    id: 'seasonal',
+    title: 'Seasonal Cakes',
+    subtitle: 'Limited editions for special moments',
+    image: 'https://images.unsplash.com/photo-1625866448531-1b00c0251f76?w=600&q=80',
     bg: 'bg-[#FDF0E8]',
-    link: 'shop',
+    link: 'shop?category=seasonal',
   },
 ]
 

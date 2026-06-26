@@ -172,3 +172,4 @@ FROM (VALUES
 WHERE (SELECT COUNT(*) FROM cms_blocks WHERE type IN ('hero_slide', 'split_section')) = 0;
 
 -- Done! Refresh admin panel after running this script.
+-- For full client demo sample, also run: backend/migrations/supabase_client_demo.sql

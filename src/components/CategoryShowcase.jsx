@@ -21,7 +21,7 @@ export default function CategoryShowcase() {
   return (
     <section className="py-10 md:py-14 bg-white" id="home-collections">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="stagger-grid grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+        <div className="stagger-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {showcaseCategories.map((cat) => (
             <Link
               key={cat.id}
