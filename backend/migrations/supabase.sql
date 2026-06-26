@@ -1,7 +1,7 @@
 -- ═══════════════════════════════════════════════════════════════════════════
 -- Maison Douceur — FULL Supabase Schema
--- Run this ENTIRE file in: Supabase Dashboard → SQL Editor → New query → Run
--- Project: fipsclbgsrjldhtdaumj
+-- ⚠️  If you already have tables, DO NOT run the old seed with name_en/name_ar!
+-- ✅  Instead run ONLY: backend/migrations/supabase_RUN_THIS.sql
 -- ═══════════════════════════════════════════════════════════════════════════
 
 -- ─── Categories ───
