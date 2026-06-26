@@ -36,7 +36,7 @@ export async function getAdminProducts() {
   const db = requireDb()
   const { data, error } = await db
     .from('products')
-    .select('*, categories(id, slug, name_en)')
+    .select('*, categories(id, slug, name)')
     .order('created_at', { ascending: false })
   if (error) throw error
   return data || []
@@ -53,7 +53,7 @@ export async function createProduct(product) {
   const { data, error } = await db
     .from('products')
     .insert({ ...product, updated_at: new Date().toISOString() })
-    .select('*, categories(id, slug, name_en)')
+    .select('*, categories(id, slug, name)')
     .single()
   if (error) throw error
   return data
@@ -71,7 +71,7 @@ export async function updateProduct(id, product) {
     .from('products')
     .update({ ...product, updated_at: new Date().toISOString() })
     .eq('id', id)
-    .select('*, categories(id, slug, name_en)')
+    .select('*, categories(id, slug, name)')
     .single()
   if (error) throw error
   return data
@@ -92,10 +92,10 @@ export async function deleteProduct(id) {
 export async function getAdminCategories() {
   if (!isSupabaseConfigured()) {
     return readLocal(LOCAL_CATEGORIES_KEY, [
-      { id: 1, slug: 'wedding', name_en: 'Wedding', name_ar: 'أعراس', sort_order: 1 },
-      { id: 2, slug: 'birthday', name_en: 'Birthday', name_ar: 'أعياد ميلاد', sort_order: 2 },
-      { id: 3, slug: 'corporate', name_en: 'Corporate', name_ar: 'شركات', sort_order: 3 },
-      { id: 4, slug: 'seasonal', name_en: 'Seasonal', name_ar: 'موسمي', sort_order: 4 },
+      { id: 1, slug: 'wedding', name: 'Wedding', sort_order: 1 },
+      { id: 2, slug: 'birthday', name: 'Birthday', sort_order: 2 },
+      { id: 3, slug: 'corporate', name: 'Corporate', sort_order: 3 },
+      { id: 4, slug: 'seasonal', name: 'Seasonal', sort_order: 4 },
     ])
   }
   const db = requireDb()

@@ -7,7 +7,6 @@ export function LanguageProvider({ children }) {
   useEffect(() => {
     document.documentElement.lang = 'en'
     document.documentElement.dir = 'ltr'
-    localStorage.setItem('lang', 'en')
   }, [])
 
   const t = useCallback((key) => {
@@ -19,13 +18,8 @@ export function LanguageProvider({ children }) {
     return value ?? key
   }, [])
 
-  const localized = useCallback(
-    (obj) => (typeof obj === 'object' && obj !== null ? obj.en ?? obj : obj),
-    [],
-  )
-
   return (
-    <LanguageContext.Provider value={{ lang: 'en', t, localized }}>
+    <LanguageContext.Provider value={{ t }}>
       {children}
     </LanguageContext.Provider>
   )

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { validateCoupon } from '../services/supabaseDb'
 
 const CartContext = createContext()
 
@@ -11,11 +12,23 @@ export function CartProvider({ children }) {
     }
   })
   const [isOpen, setIsOpen] = useState(false)
-  const [coupon, setCoupon] = useState(null)
+  const [coupon, setCoupon] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('cartCoupon') || 'null')
+    } catch {
+      return null
+    }
+  })
+  const [couponError, setCouponError] = useState('')
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(items))
   }, [items])
+
+  useEffect(() => {
+    if (coupon) localStorage.setItem('cartCoupon', JSON.stringify(coupon))
+    else localStorage.removeItem('cartCoupon')
+  }, [coupon])
 
   const addItem = useCallback((product, quantity = 1) => {
     setItems((prev) => {
@@ -41,11 +54,37 @@ export function CartProvider({ children }) {
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity } : i)))
   }, [])
 
-  const clearCart = useCallback(() => setItems([]), [])
+  const clearCart = useCallback(() => {
+    setItems([])
+    setCoupon(null)
+    setCouponError('')
+  }, [])
+
+  const applyCoupon = useCallback(async (code, subtotal) => {
+    setCouponError('')
+    try {
+      const validated = await validateCoupon(code, subtotal)
+      setCoupon(validated)
+      return true
+    } catch (e) {
+      setCoupon(null)
+      setCouponError(e.message)
+      return false
+    }
+  }, [])
+
+  const removeCoupon = useCallback(() => {
+    setCoupon(null)
+    setCouponError('')
+  }, [])
 
   const itemCount = items.reduce((sum, i) => sum + i.quantity, 0)
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
-  const discount = coupon ? (coupon.type === 'percentage' ? subtotal * (coupon.value / 100) : coupon.value) : 0
+  const discount = coupon
+    ? coupon.type === 'percentage'
+      ? subtotal * (Number(coupon.value) / 100)
+      : Number(coupon.value)
+    : 0
   const total = Math.max(0, subtotal - discount)
 
   return (
@@ -64,6 +103,9 @@ export function CartProvider({ children }) {
         setIsOpen,
         coupon,
         setCoupon,
+        applyCoupon,
+        removeCoupon,
+        couponError,
       }}
     >
       {children}

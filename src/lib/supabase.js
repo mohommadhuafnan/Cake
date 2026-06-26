@@ -27,8 +27,8 @@ export function mapSupabaseProduct(row) {
   const category = row.categories?.slug || row.category || 'birthday'
   return {
     id: row.id,
-    name: { en: row.name_en, ar: row.name_ar },
-    description: { en: row.description_en || '', ar: row.description_ar || '' },
+    name: row.name || row.name_en || '',
+    description: row.description || row.description_en || '',
     price: Number(row.price),
     category,
     image: row.image,

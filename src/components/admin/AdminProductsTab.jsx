@@ -123,7 +123,7 @@ export default function AdminProductsTab() {
                     )}
                   </td>
                   <td className="p-4">
-                    <p className="font-medium">{p.name_en}</p>
+                    <p className="font-medium">{p.name || p.name_en}</p>
                   </td>
                   <td className="p-4 capitalize text-muted">{p.categories?.slug || p.category || '—'}</td>
                   <td className="p-4 font-medium">{formatPrice(Number(p.price), 'en')}</td>
@@ -140,7 +140,7 @@ export default function AdminProductsTab() {
                   </td>
                   <td className="p-4 whitespace-nowrap">
                     <button onClick={() => openEdit(p)} className="text-gold text-sm me-3 hover:underline">Edit</button>
-                    <button onClick={() => handleDelete(p.id, p.name_en)} className="text-red-400 text-sm hover:underline">Delete</button>
+                    <button onClick={() => handleDelete(p.id, p.name || p.name_en)} className="text-red-400 text-sm hover:underline">Delete</button>
                   </td>
                 </tr>
               ))}

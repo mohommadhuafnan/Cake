@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getAdminCategories, createCategory, updateCategory, deleteCategory } from '../../services/adminDb'
+import AdminImagePicker from './AdminImagePicker'
 
 export default function AdminCategoriesTab() {
   const [categories, setCategories] = useState([])
@@ -20,8 +21,8 @@ export default function AdminCategoriesTab() {
 
   useEffect(() => { load() }, [load])
 
-  const startAdd = () => setForm({ slug: '', name_en: '', sort_order: categories.length + 1 })
-  const startEdit = (c) => setForm({ ...c })
+  const startAdd = () => setForm({ slug: '', name: '', sort_order: categories.length + 1 })
+  const startEdit = (c) => setForm({ ...c, name: c.name || c.name_en })
   const cancel = () => setForm(null)
 
   const handleSave = async (e) => {
@@ -30,8 +31,7 @@ export default function AdminCategoriesTab() {
     try {
       const payload = {
         slug: form.slug.trim().toLowerCase().replace(/\s+/g, '-'),
-        name_en: form.name_en.trim(),
-        name_ar: form.name_en.trim(),
+        name: form.name.trim(),
         sort_order: Number(form.sort_order) || 0,
         image: form.image?.trim() || null,
       }
@@ -73,7 +73,11 @@ export default function AdminCategoriesTab() {
         <form onSubmit={handleSave} className="bg-white p-6 shadow-sm mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input label="Slug" value={form.slug} onChange={(v) => setForm({ ...form, slug: v })} placeholder="birthday" required />
           <Input label="Sort Order" type="number" value={form.sort_order} onChange={(v) => setForm({ ...form, sort_order: v })} />
-          <Input label="Name" value={form.name_en} onChange={(v) => setForm({ ...form, name_en: v })} required />
+          <Input label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+          <div className="md:col-span-2">
+            <label className="block text-xs uppercase tracking-wider text-muted mb-1">Category Image</label>
+            <AdminImagePicker value={form.image || ''} onChange={(url) => setForm({ ...form, image: url })} />
+          </div>
           <div className="md:col-span-2 flex gap-3">
             <button type="submit" className="btn-primary text-xs">Save</button>
             <button type="button" onClick={cancel} className="btn-outline text-xs">Cancel</button>
@@ -88,6 +92,7 @@ export default function AdminCategoriesTab() {
           <table className="w-full text-sm">
             <thead className="bg-ivory text-xs uppercase tracking-wider">
               <tr>
+                <th className="p-4 text-left">Image</th>
                 <th className="p-4 text-left">Slug</th>
                 <th className="p-4 text-left">Name</th>
                 <th className="p-4 text-left">Order</th>
@@ -97,12 +102,15 @@ export default function AdminCategoriesTab() {
             <tbody>
               {categories.map((c) => (
                 <tr key={c.id} className="border-t border-gray-100">
+                  <td className="p-4">
+                    {c.image ? <img src={c.image} alt="" className="w-12 h-12 object-cover rounded" /> : '—'}
+                  </td>
                   <td className="p-4 font-mono text-xs">{c.slug}</td>
-                  <td className="p-4">{c.name_en}</td>
+                  <td className="p-4">{c.name || c.name_en}</td>
                   <td className="p-4">{c.sort_order}</td>
                   <td className="p-4">
                     <button onClick={() => startEdit(c)} className="text-gold text-sm me-3">Edit</button>
-                    <button onClick={() => handleDelete(c.id, c.name_en)} className="text-red-400 text-sm">Delete</button>
+                    <button onClick={() => handleDelete(c.id, c.name || c.name_en)} className="text-red-400 text-sm">Delete</button>
                   </td>
                 </tr>
               ))}
@@ -114,13 +122,12 @@ export default function AdminCategoriesTab() {
   )
 }
 
-function Input({ label, dir, type = 'text', ...props }) {
+function Input({ label, type = 'text', ...props }) {
   const { value, onChange, ...rest } = props
   return (
     <div>
       <label className="block text-xs uppercase tracking-wider text-muted mb-1">{label}</label>
       <input
-        dir={dir}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}

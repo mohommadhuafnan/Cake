@@ -12,8 +12,8 @@ import { createOrder, upsertCustomerProfile } from '../services/supabaseDb'
 const STEPS = ['step1', 'step2', 'step3', 'step4']
 
 export default function Checkout() {
-  const { lang, t } = useLanguage()
-  const { items, total, clearCart } = useCart()
+  const { t } = useLanguage()
+  const { items, subtotal, discount, total, clearCart, coupon } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
@@ -42,7 +42,15 @@ export default function Checkout() {
             city: form.city,
           })
         }
-        const order = await createOrder({ form, items, total, userId: user?.id || null })
+        const order = await createOrder({
+          form,
+          items,
+          subtotal,
+          discount,
+          total,
+          couponCode: coupon?.code || null,
+          userId: user?.id || null,
+        })
         setOrderNumber(order.order_number)
       } else {
         await api.createOrder({ ...form, items, total })
@@ -118,14 +126,22 @@ export default function Checkout() {
               <input type="radio" name="payment" value="whatsapp" checked={form.payment === 'whatsapp'} onChange={() => update('payment', 'whatsapp')} />
               <span>{t('checkout.whatsapp')}</span>
             </label>
-            <p className="text-gold text-xl font-medium mt-4">{t('cart.total')}: {formatPrice(total, lang)}</p>
+            <p className="text-gold text-xl font-medium mt-4">{t('cart.total')}: {formatPrice(total)}</p>
+            {discount > 0 && (
+              <p className="text-green-600 text-sm mt-1">
+                {t('cart.discount')}: -{formatPrice(discount)} ({coupon?.code})
+              </p>
+            )}
           </div>
         )}
 
         {step === 3 && (
           <div className="fade-up text-center py-8">
             <p className="text-muted mb-4">Review your order and confirm.</p>
-            <p className="text-2xl font-display text-gold">{formatPrice(total, lang)}</p>
+            {discount > 0 && (
+              <p className="text-green-600 text-sm mb-2">Discount ({coupon?.code}): -{formatPrice(discount)}</p>
+            )}
+            <p className="text-2xl font-display text-gold">{formatPrice(total)}</p>
           </div>
         )}
 

@@ -6,7 +6,7 @@ import CompactProductCard from './CompactProductCard'
 const CONTAINER_PAD = 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))'
 const GAP_PX = { base: 20, md: 24 }
 
-function PromoSideCard({ promo, lang, localized }) {
+function PromoSideCard({ promo }) {
   return (
     <div className="carousel-card-slot flex-shrink-0">
       <Link
@@ -22,23 +22,23 @@ function PromoSideCard({ promo, lang, localized }) {
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/40 to-charcoal/20 group-hover:from-charcoal/90 transition-colors duration-500" />
         <div className="relative z-10 h-full flex flex-col justify-end p-6">
           <h3 className="font-display text-xl text-white mb-2 group-hover:text-gold transition-colors leading-snug">
-            {localized(promo.title)}
+            {promo.title}
           </h3>
-          <span className="text-sm font-medium text-gold">{localized(promo.cta)} →</span>
+          <span className="text-sm font-medium text-gold">{promo.cta} →</span>
         </div>
       </Link>
     </div>
   )
 }
 
-function CarouselItem({ item, lang, localized }) {
+function CarouselItem({ item }) {
   if (item.type === 'promo') {
-    return <PromoSideCard promo={item.data} lang={lang} localized={localized} />
+    return <PromoSideCard promo={item.data} />
   }
   return <CompactProductCard product={item.data} />
 }
 
-function MarqueeSet({ items, lang, localized, setRef, clone }) {
+function MarqueeSet({ items, setRef, clone }) {
   return (
     <div
       ref={setRef}
@@ -46,19 +46,14 @@ function MarqueeSet({ items, lang, localized, setRef, clone }) {
       aria-hidden={clone || undefined}
     >
       {items.map((item, i) => (
-        <CarouselItem
-          key={`${item.type}-${item.data.id ?? 'promo'}-${i}`}
-          item={item}
-          lang={lang}
-          localized={localized}
-        />
+        <CarouselItem key={`${item.type}-${item.data.id ?? 'promo'}-${i}`} item={item} />
       ))}
     </div>
   )
 }
 
 export default function ProductCarousel({ title, subtitle, products, viewAllLink = 'shop', promoCard }) {
-  const { lang, localized, t } = useLanguage()
+  const { t } = useLanguage()
   const setRef = useRef(null)
   const [loopPx, setLoopPx] = useState(0)
   const [duration, setDuration] = useState(28)
@@ -75,7 +70,6 @@ export default function ProductCarousel({ title, subtitle, products, viewAllLink
     const gap = window.matchMedia('(min-width: 768px)').matches ? GAP_PX.md : GAP_PX.base
     const distance = setWidth + gap
     setLoopPx(distance)
-    // ~80px per second scroll speed — smooth, not too fast
     setDuration(Math.max(20, Math.min(45, distance / 55)))
   }, [])
 
@@ -86,7 +80,6 @@ export default function ProductCarousel({ title, subtitle, products, viewAllLink
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     window.addEventListener('resize', measure)
-    // Re-measure after images load inside the set
     el.querySelectorAll('img').forEach((img) => {
       if (!img.complete) img.addEventListener('load', measure, { once: true })
     })
@@ -107,13 +100,9 @@ export default function ProductCarousel({ title, subtitle, products, viewAllLink
     <section className="py-16 md:py-20 bg-white overflow-hidden">
       <div className="mb-10 md:mb-12 fade-up" style={{ paddingInline: CONTAINER_PAD }}>
         <div className="max-w-xl">
-          <h2 className="font-display text-3xl md:text-4xl text-charcoal leading-tight">
-            {localized(title)}
-          </h2>
+          <h2 className="font-display text-3xl md:text-4xl text-charcoal leading-tight">{title}</h2>
           {subtitle && (
-            <p className="text-muted text-sm md:text-base mt-3 leading-relaxed">
-              {localized(subtitle)}
-            </p>
+            <p className="text-muted text-sm md:text-base mt-3 leading-relaxed">{subtitle}</p>
           )}
         </div>
       </div>
@@ -123,8 +112,8 @@ export default function ProductCarousel({ title, subtitle, products, viewAllLink
           className={`marquee-track flex items-stretch gap-5 md:gap-6 w-max${loopPx ? ' marquee-track--ready' : ''}`}
           style={trackStyle}
         >
-          <MarqueeSet items={trackItems} lang={lang} localized={localized} setRef={setRef} />
-          <MarqueeSet items={trackItems} lang={lang} localized={localized} clone />
+          <MarqueeSet items={trackItems} setRef={setRef} />
+          <MarqueeSet items={trackItems} clone />
         </div>
       </div>
 

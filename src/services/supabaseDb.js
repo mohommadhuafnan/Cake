@@ -23,10 +23,12 @@ export async function upsertCustomerProfile({ id, name, email, phone, city }) {
   return data
 }
 
-export async function createOrder({ form, items, total, userId = null }) {
+export async function createOrder({ form, items, subtotal, discount = 0, total, couponCode = null, userId = null }) {
   const db = requireSupabase()
   const orderNumber = generateOrderNumber()
-  const subtotal = Number(total)
+  const orderSubtotal = Number(subtotal ?? total)
+  const orderDiscount = Number(discount) || 0
+  const orderTotal = Number(total ?? orderSubtotal - orderDiscount)
 
   const { data: order, error: orderError } = await db
     .from('orders')
@@ -38,12 +40,13 @@ export async function createOrder({ form, items, total, userId = null }) {
       customer_phone: form.phone || null,
       shipping_address: form.address,
       city: form.city || 'Doha',
-      subtotal,
-      discount: 0,
-      total: subtotal,
+      subtotal: orderSubtotal,
+      discount: orderDiscount,
+      total: orderTotal,
       payment_method: form.payment || 'card',
       payment_status: 'pending',
       status: 'pending',
+      notes: couponCode ? `Coupon: ${couponCode}` : null,
     })
     .select()
     .single()
@@ -198,4 +201,62 @@ export async function checkSupabaseConnection() {
   } catch (e) {
     return { ok: false, reason: e.message }
   }
+}
+
+const FALLBACK_COUPONS = [
+  { id: 1, code: 'WELCOME10', type: 'percentage', value: 10, min_order: 100, is_active: true },
+  { id: 2, code: 'FLAT50', type: 'fixed', value: 50, min_order: 200, is_active: true },
+]
+
+export async function getActiveCoupons() {
+  if (!isSupabaseConfigured()) return FALLBACK_COUPONS
+
+  const db = requireSupabase()
+  const { data, error } = await db
+    .from('coupons')
+    .select('id, code, type, value, min_order, max_uses, used_count, expires_at, is_active')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  const now = new Date()
+  return (data || []).filter((c) => {
+    if (c.expires_at && new Date(c.expires_at) < now) return false
+    if (c.max_uses && c.used_count >= c.max_uses) return false
+    return true
+  })
+}
+
+export async function validateCoupon(code, subtotal = 0) {
+  const normalized = code.trim().toUpperCase()
+  if (!normalized) throw new Error('Enter a coupon code')
+
+  let coupon
+  if (isSupabaseConfigured()) {
+    const db = requireSupabase()
+    const { data, error } = await db
+      .from('coupons')
+      .select('*')
+      .eq('code', normalized)
+      .eq('is_active', true)
+      .maybeSingle()
+    if (error) throw error
+    coupon = data
+  } else {
+    coupon = FALLBACK_COUPONS.find((c) => c.code === normalized)
+  }
+
+  if (!coupon) throw new Error('Invalid coupon code')
+  if (coupon.expires_at && new Date(coupon.expires_at) < new Date()) {
+    throw new Error('This coupon has expired')
+  }
+  if (coupon.max_uses && coupon.used_count >= coupon.max_uses) {
+    throw new Error('This coupon is no longer available')
+  }
+  if (subtotal > 0 && Number(coupon.min_order) > subtotal) {
+    throw new Error(`Minimum order is QAR ${Number(coupon.min_order).toLocaleString('en-QA')}`)
+  }
+
+  return coupon
 }

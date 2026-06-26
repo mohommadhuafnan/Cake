@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
-import { welcomeOffer } from '../data/homeContent'
+import { useCart } from '../context/CartContext'
+import { getActiveCoupons } from '../services/supabaseDb'
+import { formatCouponLabel } from './CouponApply'
 
 export default function OfferPopup() {
-  const { lang, localized } = useLanguage()
+  const { applyCoupon } = useCart()
   const [open, setOpen] = useState(false)
+  const [offer, setOffer] = useState(null)
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem('offer-dismissed')
-    if (!dismissed) {
-      const timer = setTimeout(() => setOpen(true), 2500)
-      return () => clearTimeout(timer)
+    if (dismissed) return undefined
+
+    let timer
+    getActiveCoupons()
+      .then((coupons) => {
+        if (coupons.length > 0) {
+          setOffer(coupons[0])
+          timer = setTimeout(() => setOpen(true), 2500)
+        }
+      })
+      .catch(() => {})
+
+    return () => {
+      if (timer) clearTimeout(timer)
     }
   }, [])
 
@@ -20,7 +34,7 @@ export default function OfferPopup() {
     setOpen(false)
   }
 
-  if (!open) return null
+  if (!open || !offer) return null
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -34,20 +48,28 @@ export default function OfferPopup() {
         </button>
 
         <div className="text-5xl mb-4">🎁</div>
-        <h2 className="font-display text-3xl text-charcoal mb-2">{localized(welcomeOffer.title)}</h2>
-        <p className="text-muted text-sm mb-6 leading-relaxed">{localized(welcomeOffer.description)}</p>
+        <h2 className="font-display text-3xl text-charcoal mb-2">Special Offer!</h2>
+        <p className="text-gold text-sm uppercase tracking-widest mb-2">{formatCouponLabel(offer)}</p>
+        <p className="text-muted text-sm mb-6 leading-relaxed">
+          Use this code at checkout{Number(offer.min_order) > 0 ? ` on orders over QAR ${offer.min_order}` : ''}.
+        </p>
 
         <div className="inline-block px-6 py-3 border-2 border-dashed border-gold text-gold font-display text-2xl tracking-widest mb-6">
-          {welcomeOffer.code}
+          {offer.code}
         </div>
 
-        <Link
-          to={`/shop`}
-          onClick={dismiss}
-          className="btn-primary w-full block"
-        >
-          {localized(welcomeOffer.cta)}
-        </Link>
+        <div className="flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => { applyCoupon(offer.code, 0); dismiss() }}
+            className="btn-primary w-full"
+          >
+            Apply & Shop
+          </button>
+          <Link to="/shop" onClick={dismiss} className="btn-outline w-full block text-center">
+            Browse Cakes
+          </Link>
+        </div>
       </div>
     </div>
   )

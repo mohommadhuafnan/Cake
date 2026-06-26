@@ -4,24 +4,36 @@ import Layout from '../components/Layout'
 import ProductCard from '../components/ProductCard'
 import { useLanguage } from '../context/LanguageContext'
 import { useCart } from '../context/CartContext'
-import { products } from '../data/products'
+import { useProducts } from '../hooks/useProducts'
 import { formatPrice } from '../utils/currency'
 import { triggerAddToCartAnimation } from '../hooks/useScrollAnimations'
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const { lang, t, localized } = useLanguage()
+  const { t } = useLanguage()
   const { addItem } = useCart()
+  const { products, loading } = useProducts()
   const [quantity, setQuantity] = useState(1)
   const [activeImage, setActiveImage] = useState(0)
 
-  const product = products.find((p) => p.id === Number(id))
+  const product = products.find((p) => String(p.id) === String(id))
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex justify-center py-32">
+          <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+        </div>
+      </Layout>
+    )
+  }
+
   if (!product) {
     return (
       <Layout>
         <div className="text-center py-32">
           <p className="text-muted mb-4">Product not found</p>
-          <Link to={`/shop`} className="btn-outline">{t('nav.shop')}</Link>
+          <Link to="/shop" className="btn-outline">{t('nav.shop')}</Link>
         </div>
       </Layout>
     )
@@ -36,13 +48,13 @@ export default function ProductDetail() {
   }
 
   return (
-    <Layout title={localized(product.name)} description={localized(product.description)}>
+    <Layout title={product.name} description={product.description}>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-16">
           <div>
             <img
               src={images[activeImage]}
-              alt={localized(product.name)}
+              alt={product.name}
               className="slide-image slide-image--left w-full aspect-square object-cover bg-ivory mb-4"
             />
             <div className="flex gap-3">
@@ -59,12 +71,12 @@ export default function ProductDetail() {
           </div>
 
           <div>
-            <h1 className="font-display text-4xl md:text-5xl mb-2 fade-up">{localized(product.name)}</h1>
+            <h1 className="font-display text-4xl md:text-5xl mb-2 fade-up">{product.name}</h1>
             <div className="flex items-center gap-3 mb-6 fade-up">
-              <p className="text-gold text-2xl">{formatPrice(product.price, lang)}</p>
+              <p className="text-gold text-2xl">{formatPrice(product.price)}</p>
               <span className="text-muted text-sm">★ {product.rating} ({product.reviews} {t('product.reviews')})</span>
             </div>
-            <p className="text-muted leading-relaxed mb-8 fade-up">{localized(product.description)}</p>
+            <p className="text-muted leading-relaxed mb-8 fade-up">{product.description}</p>
 
             <div className="flex items-center gap-4 mb-8 fade-up">
               <span className="text-sm uppercase tracking-widest">{t('product.quantity')}</span>

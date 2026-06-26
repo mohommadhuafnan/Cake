@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+import { useSite } from '../context/SiteContext'
 import { useTypewriter } from '../hooks/useTypewriter'
 
 const NAV_OFFSET = '6.75rem'
 
-const heroImages = [
+const DEFAULT_HERO_IMAGES = [
   'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1920&q=80',
   'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1920&q=80',
   'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=1920&q=80',
@@ -13,17 +14,21 @@ const heroImages = [
 ]
 
 export default function HeroSection() {
-  const { lang, t } = useLanguage()
+  const { t } = useLanguage()
+  const { settings, heroImages } = useSite()
+  const images = heroImages.length > 0 ? heroImages : DEFAULT_HERO_IMAGES
   const [current, setCurrent] = useState(0)
-  const title = t('hero.title')
+  const title = settings.hero_title || t('hero.title')
+  const subtitle = settings.hero_subtitle || t('hero.subtitle')
+  const tagline = settings.tagline || t('tagline')
   const { display, done } = useTypewriter(title, 50, 600)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((c) => (c + 1) % heroImages.length)
+      setCurrent((c) => (c + 1) % images.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [images.length])
 
   const scrollToContent = () => {
     document.getElementById('home-collections')?.scrollIntoView({ behavior: 'smooth' })
@@ -35,7 +40,7 @@ export default function HeroSection() {
       style={{ minHeight: `calc(100dvh + ${NAV_OFFSET})` }}
     >
       {/* Background image loop — fills entire section */}
-      {heroImages.map((src, i) => (
+      {images.map((src, i) => (
         <div
           key={src}
           className={`hero-bg-slide absolute inset-0 transition-opacity duration-1000 ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}
@@ -58,7 +63,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-6 py-8 text-center w-full">
         <div className="glass-ios inline-block px-5 py-2 rounded-full mb-6 hero-subtext">
           <p className="text-gold uppercase tracking-[0.25em] text-[10px] md:text-xs font-medium">
-            {t('tagline')}
+            {tagline}
           </p>
         </div>
 
@@ -72,7 +77,7 @@ export default function HeroSection() {
             done ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          {t('hero.subtitle')}
+          {subtitle}
         </p>
 
         <div
@@ -92,7 +97,7 @@ export default function HeroSection() {
       {/* Bottom bar: slide dots + scroll down */}
       <div className="relative z-10 w-full pb-8 md:pb-10 flex flex-col items-center gap-5">
         <div className="flex gap-2">
-          {heroImages.map((_, i) => (
+          {images.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}

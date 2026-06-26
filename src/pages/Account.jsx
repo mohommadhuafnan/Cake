@@ -11,7 +11,7 @@ import { getOrdersByEmail } from '../services/supabaseDb'
 import { formatPrice } from '../utils/currency'
 
 export default function Account() {
-  const { lang, t } = useLanguage()
+  const { t } = useLanguage()
   const navigate = useNavigate()
   const { user, login, loginWithGoogle, register, resetPassword, logout, isAuthenticated, isFirebaseEnabled, loading: authLoading } = useAuth()
   const [error, setError] = useState('')
@@ -119,7 +119,7 @@ export default function Account() {
                       <p className="font-medium">{o.order_number}</p>
                       <p className="text-muted text-xs capitalize">{o.status}</p>
                     </div>
-                    <p className="text-gold font-medium">{formatPrice(Number(o.total), lang)}</p>
+                    <p className="text-gold font-medium">{formatPrice(Number(o.total))}</p>
                   </li>
                 ))}
               </ul>

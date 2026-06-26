@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 $category = $_GET['category'] ?? null;
 $search = $_GET['search'] ?? null;
 
-$sql = 'SELECT p.id, p.name_en, p.name_ar, p.description_en, p.description_ar, p.price, p.image, p.stock, p.rating, c.slug as category FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.is_active = 1';
+$sql = 'SELECT p.id, p.name, p.description, p.price, p.image, p.stock, p.rating, c.slug as category FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.is_active = 1';
 $params = [];
 
 if ($category) {
@@ -22,8 +22,7 @@ if ($category) {
     $params[] = $category;
 }
 if ($search) {
-    $sql .= ' AND (p.name_en LIKE ? OR p.name_ar LIKE ?)';
-    $params[] = "%$search%";
+    $sql .= ' AND p.name LIKE ?';
     $params[] = "%$search%";
 }
 

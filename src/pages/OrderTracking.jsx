@@ -9,7 +9,7 @@ import { trackOrder } from '../services/supabaseDb'
 const STATUSES = ['pending', 'confirmed', 'baking', 'ready', 'delivered']
 
 export default function OrderTracking() {
-  const { lang, t } = useLanguage()
+  const { t } = useLanguage()
   const [orderId, setOrderId] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -58,7 +58,7 @@ export default function OrderTracking() {
           <div className="fade-up">
             <p className="text-center text-muted mb-2">Order #{result.order_number}</p>
             {result.total && (
-              <p className="text-center text-gold mb-8">{formatPrice(Number(result.total), lang)}</p>
+              <p className="text-center text-gold mb-8">{formatPrice(Number(result.total))}</p>
             )}
             <div className="relative">
               {STATUSES.map((status, i) => (

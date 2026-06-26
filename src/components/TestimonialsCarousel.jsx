@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 
 export default function TestimonialsCarousel({ items }) {
-  const { localized, t } = useLanguage()
+  const { t } = useLanguage()
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
   const trackRef = useRef(null)
@@ -39,7 +39,7 @@ export default function TestimonialsCarousel({ items }) {
                     ))}
                   </div>
                   <p className="font-display text-xl italic text-charcoal mb-6 leading-relaxed fade-up">
-                    &ldquo;{localized(item.text)}&rdquo;
+                    &ldquo;{item.text}&rdquo;
                   </p>
                   <p className="text-sm uppercase tracking-widest text-gold fade-up">{item.name}</p>
                 </div>

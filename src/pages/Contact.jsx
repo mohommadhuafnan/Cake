@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 import { useLanguage } from '../context/LanguageContext'
+import { useSite } from '../context/SiteContext'
 import { api } from '../utils/api'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { submitContactMessage } from '../services/supabaseDb'
 
 export default function Contact() {
   const { t } = useLanguage()
+  const { settings } = useSite()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
 
@@ -51,15 +53,15 @@ export default function Contact() {
 
           <div className="fade-up">
             <div className="glass-card p-8 mb-8">
-              <h3 className="font-display text-xl mb-4">Maison Douceur</h3>
-              <p className="text-muted text-sm leading-relaxed mb-2">West Bay, Doha, Qatar</p>
-              <p className="text-muted text-sm">+974 1234 5678</p>
-              <p className="text-muted text-sm">hello@maisondouceur.qa</p>
+              <h3 className="font-display text-xl mb-4">{settings.brand_name || 'Maison Douceur'}</h3>
+              <p className="text-muted text-sm leading-relaxed mb-2">{settings.address}</p>
+              <p className="text-muted text-sm">{settings.phone}</p>
+              <p className="text-muted text-sm">{settings.email}</p>
             </div>
             <div className="aspect-video bg-ivory flex items-center justify-center text-muted">
               <iframe
                 title="Map"
-                src="https://maps.google.com/maps?q=Doha+Qatar&output=embed"
+                src={settings.map_embed || 'https://maps.google.com/maps?q=Doha+Qatar&output=embed'}
                 className="w-full h-full border-0"
                 loading="lazy"
               />

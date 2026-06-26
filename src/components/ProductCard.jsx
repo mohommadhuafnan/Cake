@@ -5,7 +5,7 @@ import { triggerAddToCartAnimation } from '../hooks/useScrollAnimations'
 import { Link } from 'react-router-dom'
 
 export default function ProductCard({ product, onQuickView }) {
-  const { lang, localized, t } = useLanguage()
+  const { t } = useLanguage()
   const { addItem } = useCart()
 
   const handleAddToCart = (e) => {
@@ -23,7 +23,7 @@ export default function ProductCard({ product, onQuickView }) {
         <div className="relative overflow-hidden aspect-[4/5] bg-ivory">
           <img
             src={product.image}
-            alt={localized(product.name)}
+            alt={product.name}
             className="product-card__image w-full h-full object-cover"
             loading="lazy"
           />
@@ -42,9 +42,9 @@ export default function ProductCard({ product, onQuickView }) {
           </div>
         </div>
         <div className="p-5">
-          <h3 className="font-display text-lg mb-1">{localized(product.name)}</h3>
+          <h3 className="font-display text-lg mb-1">{product.name}</h3>
           <div className="flex items-center justify-between">
-            <p className="text-gold font-medium">{formatPrice(product.price, lang)}</p>
+            <p className="text-gold font-medium">{formatPrice(product.price)}</p>
             <div className="flex items-center gap-1 text-xs text-muted">
               <span className="text-gold">★</span> {product.rating}
             </div>

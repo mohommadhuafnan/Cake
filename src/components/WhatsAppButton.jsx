@@ -1,6 +1,9 @@
+import { useSite } from '../context/SiteContext'
+
 export default function WhatsAppButton() {
-  const phone = '97412345678'
-  const message = encodeURIComponent('Hello! I would like to order a cake from Maison Douceur.')
+  const { settings } = useSite()
+  const phone = settings.whatsapp || '97412345678'
+  const message = encodeURIComponent(settings.whatsapp_message || 'Hello! I would like to order a cake.')
 
   return (
     <a

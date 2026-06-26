@@ -10,15 +10,23 @@ import AdminOrdersTab from '../components/admin/AdminOrdersTab'
 import AdminCouponsTab from '../components/admin/AdminCouponsTab'
 import AdminCustomOrdersTab from '../components/admin/AdminCustomOrdersTab'
 import AdminContactTab from '../components/admin/AdminContactTab'
+import AdminSettingsTab from '../components/admin/AdminSettingsTab'
+import AdminContentTab from '../components/admin/AdminContentTab'
+import AdminReviewsTab from '../components/admin/AdminReviewsTab'
+import AdminNewsletterTab from '../components/admin/AdminNewsletterTab'
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: '◈' },
+  { id: 'settings', label: 'Site Settings', icon: '⚙' },
+  { id: 'content', label: 'Website Content', icon: '✎' },
   { id: 'products', label: 'Products', icon: '◆' },
   { id: 'categories', label: 'Categories', icon: '◇' },
   { id: 'orders', label: 'Orders', icon: '◉' },
   { id: 'coupons', label: 'Coupons', icon: '◎' },
   { id: 'customOrders', label: 'Custom Orders', icon: '✦' },
   { id: 'contact', label: 'Messages', icon: '✉' },
+  { id: 'reviews', label: 'Reviews', icon: '★' },
+  { id: 'newsletter', label: 'Newsletter', icon: '▤' },
 ]
 
 export default function Admin() {
@@ -68,12 +76,16 @@ export default function Admin() {
 
       <main className="flex-1 p-6 lg:p-8 overflow-x-hidden">
         {tab === 'dashboard' && <AdminDashboard />}
+        {tab === 'settings' && <AdminSettingsTab />}
+        {tab === 'content' && <AdminContentTab />}
         {tab === 'products' && <AdminProductsTab />}
         {tab === 'categories' && <AdminCategoriesTab />}
         {tab === 'orders' && <AdminOrdersTab />}
         {tab === 'coupons' && <AdminCouponsTab />}
         {tab === 'customOrders' && <AdminCustomOrdersTab />}
         {tab === 'contact' && <AdminContactTab />}
+        {tab === 'reviews' && <AdminReviewsTab />}
+        {tab === 'newsletter' && <AdminNewsletterTab />}
       </main>
     </div>
   )

@@ -20,7 +20,7 @@ const SLOTS = [
   'md:col-span-12 md:row-start-3 aspect-[21/9] md:min-h-[200px]',
 ]
 
-function GalleryTile({ item, slotClass, lang, localized, t }) {
+function GalleryTile({ item, slotClass, t }) {
   return (
     <Link
       to={`/product/${item.id}`}
@@ -28,7 +28,7 @@ function GalleryTile({ item, slotClass, lang, localized, t }) {
     >
       <img
         src={item.src}
-        alt={localized(item.name)}
+        alt={item.name}
         className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
         loading="lazy"
         onError={(e) => { e.currentTarget.src = FALLBACKS[item.id] || FALLBACKS[1] }}
@@ -38,7 +38,7 @@ function GalleryTile({ item, slotClass, lang, localized, t }) {
 
       <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
         <div className="glass-ios rounded-xl px-4 py-3 inline-block">
-          <p className="font-display text-lg text-charcoal leading-tight">{localized(item.name)}</p>
+          <p className="font-display text-lg text-charcoal leading-tight">{item.name}</p>
           <span className="text-xs text-gold uppercase tracking-wider mt-1 inline-block">{t('common.view')} →</span>
         </div>
       </div>
@@ -47,7 +47,7 @@ function GalleryTile({ item, slotClass, lang, localized, t }) {
 }
 
 export default function GallerySection({ items }) {
-  const { lang, localized, t } = useLanguage()
+  const { t } = useLanguage()
   const tiles = items.slice(0, SLOTS.length)
 
   return (
@@ -64,8 +64,6 @@ export default function GallerySection({ items }) {
               key={item.id}
               item={item}
               slotClass={SLOTS[i]}
-              lang={lang}
-              localized={localized}
               t={t}
             />
           ))}

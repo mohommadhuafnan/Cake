@@ -8,8 +8,7 @@
 CREATE TABLE IF NOT EXISTS categories (
   id BIGSERIAL PRIMARY KEY,
   slug TEXT NOT NULL UNIQUE,
-  name_en TEXT NOT NULL,
-  name_ar TEXT NOT NULL,
+  name TEXT NOT NULL,
   image TEXT,
   sort_order INT DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -19,10 +18,8 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS products (
   id BIGSERIAL PRIMARY KEY,
   category_id BIGINT REFERENCES categories(id) ON DELETE SET NULL,
-  name_en TEXT NOT NULL,
-  name_ar TEXT NOT NULL,
-  description_en TEXT,
-  description_ar TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
   price NUMERIC(10,2) NOT NULL,
   image TEXT,
   images JSONB DEFAULT '[]'::jsonb,
@@ -222,23 +219,23 @@ CREATE POLICY "admin_read_contact" ON contact_messages FOR SELECT USING (true);
 CREATE POLICY "admin_update_contact" ON contact_messages FOR UPDATE USING (true);
 
 -- ═══ SEED DATA ═══
-INSERT INTO categories (slug, name_en, name_ar, sort_order) VALUES
-  ('wedding', 'Wedding', 'أعراس', 1),
-  ('birthday', 'Birthday', 'أعياد ميلاد', 2),
-  ('corporate', 'Corporate', 'شركات', 3),
-  ('seasonal', 'Seasonal', 'موسمي', 4)
+INSERT INTO categories (slug, name, sort_order) VALUES
+  ('wedding', 'Wedding', 1),
+  ('birthday', 'Birthday', 2),
+  ('corporate', 'Corporate', 3),
+  ('seasonal', 'Seasonal', 4)
 ON CONFLICT (slug) DO NOTHING;
 
-INSERT INTO products (category_id, name_en, name_ar, description_en, description_ar, price, image, stock, rating, reviews, popular)
-SELECT c.id, v.name_en, v.name_ar, v.description_en, v.description_ar, v.price, v.image, v.stock, v.rating, v.reviews, v.popular
+INSERT INTO products (category_id, name, description, price, image, stock, rating, reviews, popular)
+SELECT c.id, v.name, v.description, v.price, v.image, v.stock, v.rating, v.reviews, v.popular
 FROM (VALUES
-  ('wedding', 'Rose Gold Elegance', 'أناقة الذهب الوردي', 'Layers of vanilla sponge with rose-infused buttercream.', 'طبقات من الكيك الفانيليا مع كريمة الورد.', 450, 'https://images.unsplash.com/photo-1486427949362-c0aa028e0666?w=800&q=80', 10, 4.9, 24, 95),
-  ('birthday', 'Midnight Chocolate', 'شوكولاتة منتصف الليل', 'Rich dark chocolate ganache with Belgian cocoa.', 'غاناش شوكولاتة داكنة غنية.', 320, 'https://images.unsplash.com/photo-1606317138400-f2899e2919ee?w=800&q=80', 15, 4.8, 18, 88),
-  ('birthday', 'Blush Berry Dream', 'حلم التوت الوردي', 'Light sponge with mixed berry compote.', 'كيك خفيف مع كومبوت التوت.', 280, 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', 12, 4.7, 31, 82),
-  ('corporate', 'Corporate Signature', 'التوقيع المؤسسي', 'Minimalist design for corporate events.', 'تصميم بسيط للفعاليات المؤسسية.', 550, 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80', 8, 4.9, 12, 75),
-  ('seasonal', 'Ramadan Crescent', 'هلال رمضان', 'Seasonal creation with dates and pistachio.', 'إبداع موسمي بالتمر والفستق.', 380, 'https://images.unsplash.com/photo-1625866448531-1b00c0251f76?w=800&q=80', 20, 5.0, 45, 98),
-  ('wedding', 'Pearl Wedding Tower', 'برج اللؤلؤ للأعراس', 'Five-tier masterpiece with pearl fondant.', 'تحفة من خمس طبقات.', 1200, 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&q=80', 3, 5.0, 8, 100)
-) AS v(cat_slug, name_en, name_ar, description_en, description_ar, price, image, stock, rating, reviews, popular)
+  ('wedding', 'Rose Gold Elegance', 'Layers of vanilla sponge with rose-infused buttercream.', 450, 'https://images.unsplash.com/photo-1486427949362-c0aa028e0666?w=800&q=80', 10, 4.9, 24, 95),
+  ('birthday', 'Midnight Chocolate', 'Rich dark chocolate ganache with Belgian cocoa.', 320, 'https://images.unsplash.com/photo-1606317138400-f2899e2919ee?w=800&q=80', 15, 4.8, 18, 88),
+  ('birthday', 'Blush Berry Dream', 'Light sponge with mixed berry compote.', 280, 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', 12, 4.7, 31, 82),
+  ('corporate', 'Corporate Signature', 'Minimalist design for corporate events.', 550, 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80', 8, 4.9, 12, 75),
+  ('seasonal', 'Ramadan Crescent', 'Seasonal creation with dates and pistachio.', 380, 'https://images.unsplash.com/photo-1625866448531-1b00c0251f76?w=800&q=80', 20, 5.0, 45, 98),
+  ('wedding', 'Pearl Wedding Tower', 'Five-tier masterpiece with pearl fondant.', 1200, 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&q=80', 3, 5.0, 8, 100)
+) AS v(cat_slug, name, description, price, image, stock, rating, reviews, popular)
 JOIN categories c ON c.slug = v.cat_slug
 WHERE NOT EXISTS (SELECT 1 FROM products LIMIT 1);
 
@@ -251,3 +248,59 @@ ON CONFLICT (code) DO NOTHING;
 CREATE INDEX IF NOT EXISTS idx_orders_order_number ON orders(order_number);
 CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON orders(customer_email);
 CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items(order_id);
+
+-- ═══ Product image storage (Supabase Storage) ═══
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('product-images', 'product-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "public_read_product_images" ON storage.objects
+  FOR SELECT USING (bucket_id = 'product-images');
+
+CREATE POLICY "public_upload_product_images" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'product-images');
+
+CREATE POLICY "public_update_product_images" ON storage.objects
+  FOR UPDATE USING (bucket_id = 'product-images');
+
+CREATE POLICY "public_delete_product_images" ON storage.objects
+  FOR DELETE USING (bucket_id = 'product-images');
+
+-- ═══ CMS / Site Content (admin-controlled website) ═══
+CREATE TABLE IF NOT EXISTS site_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL DEFAULT '',
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS cms_blocks (
+  id BIGSERIAL PRIMARY KEY,
+  type TEXT NOT NULL,
+  title TEXT DEFAULT '',
+  subtitle TEXT DEFAULT '',
+  body TEXT DEFAULT '',
+  image TEXT DEFAULT '',
+  link TEXT DEFAULT '',
+  cta TEXT DEFAULT '',
+  tag TEXT DEFAULT '',
+  sort_order INT DEFAULT 0,
+  is_active BOOLEAN DEFAULT TRUE,
+  meta JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cms_blocks_type ON cms_blocks(type);
+
+ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cms_blocks ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "public_read_site_settings" ON site_settings FOR SELECT USING (true);
+CREATE POLICY "admin_manage_site_settings" ON site_settings FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "public_read_cms_blocks" ON cms_blocks FOR SELECT USING (is_active = true);
+CREATE POLICY "admin_manage_cms_blocks" ON cms_blocks FOR ALL USING (true) WITH CHECK (true);
+
+CREATE POLICY "admin_read_reviews" ON reviews FOR SELECT USING (true);
+CREATE POLICY "admin_manage_reviews" ON reviews FOR UPDATE USING (true);
+CREATE POLICY "admin_delete_reviews" ON reviews FOR DELETE USING (true);
+CREATE POLICY "admin_read_newsletter" ON newsletter_subscribers FOR SELECT USING (true);
+CREATE POLICY "admin_update_newsletter" ON newsletter_subscribers FOR UPDATE USING (true);

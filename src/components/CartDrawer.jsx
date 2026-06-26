@@ -3,9 +3,11 @@ import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/currency'
 import { Link } from 'react-router-dom'
 
+import CouponApply from './CouponApply'
+
 export default function CartDrawer() {
-  const { lang, t, localized } = useLanguage()
-  const { items, isOpen, setIsOpen, removeItem, updateQuantity, subtotal, total } = useCart()
+  const { t } = useLanguage()
+  const { items, isOpen, setIsOpen, removeItem, updateQuantity, subtotal, total, discount } = useCart()
 
   return (
     <>
@@ -30,10 +32,10 @@ export default function CartDrawer() {
               <ul className="space-y-6">
                 {items.map((item) => (
                   <li key={item.id} className="flex gap-4">
-                    <img src={item.image} alt={localized(item.name)} className="w-20 h-20 object-cover bg-ivory" />
+                    <img src={item.image} alt={item.name} className="w-20 h-20 object-cover bg-ivory" />
                     <div className="flex-1">
-                      <h3 className="font-display text-sm">{localized(item.name)}</h3>
-                      <p className="text-gold text-sm">{formatPrice(item.price, lang)}</p>
+                      <h3 className="font-display text-sm">{item.name}</h3>
+                      <p className="text-gold text-sm">{formatPrice(item.price)}</p>
                       <div className="flex items-center gap-3 mt-2">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -63,14 +65,21 @@ export default function CartDrawer() {
           </div>
 
           {items.length > 0 && (
-            <div className="p-6 border-t border-gray-100">
+            <div className="p-6 border-t border-gray-100 space-y-4">
+              <CouponApply compact />
               <div className="flex justify-between mb-2 text-sm">
                 <span className="text-muted">{t('cart.subtotal')}</span>
-                <span>{formatPrice(subtotal, lang)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
+              {discount > 0 && (
+                <div className="flex justify-between mb-2 text-sm text-green-600">
+                  <span>{t('cart.discount')}</span>
+                  <span>-{formatPrice(discount)}</span>
+                </div>
+              )}
               <div className="flex justify-between mb-6 font-medium">
                 <span>{t('cart.total')}</span>
-                <span className="text-gold">{formatPrice(total, lang)}</span>
+                <span className="text-gold">{formatPrice(total)}</span>
               </div>
               <Link
                 to={`/checkout`}

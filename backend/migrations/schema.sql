@@ -28,8 +28,7 @@ CREATE TABLE IF NOT EXISTS admins (
 CREATE TABLE IF NOT EXISTS categories (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   slug VARCHAR(50) NOT NULL UNIQUE,
-  name_en VARCHAR(100) NOT NULL,
-  name_ar VARCHAR(100) NOT NULL,
+  name VARCHAR(100) NOT NULL,
   image VARCHAR(500) DEFAULT NULL,
   sort_order INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -38,10 +37,8 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS products (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   category_id INT UNSIGNED DEFAULT NULL,
-  name_en VARCHAR(200) NOT NULL,
-  name_ar VARCHAR(200) NOT NULL,
-  description_en TEXT,
-  description_ar TEXT,
+  name VARCHAR(200) NOT NULL,
+  description TEXT,
   price DECIMAL(10,2) NOT NULL,
   image VARCHAR(500) DEFAULT NULL,
   images JSON DEFAULT NULL,
@@ -196,11 +193,11 @@ CREATE TABLE IF NOT EXISTS content_banners (
 INSERT INTO admins (name, email, password_hash, role) VALUES
 ('Admin', 'admin@maisondouceur.qa', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'super');
 
-INSERT INTO categories (slug, name_en, name_ar, sort_order) VALUES
-('wedding', 'Wedding', 'أعراس', 1),
-('birthday', 'Birthday', 'أعياد ميلاد', 2),
-('corporate', 'Corporate', 'شركات', 3),
-('seasonal', 'Seasonal', 'موسمي', 4);
+INSERT INTO categories (slug, name, sort_order) VALUES
+('wedding', 'Wedding', 1),
+('birthday', 'Birthday', 2),
+('corporate', 'Corporate', 3),
+('seasonal', 'Seasonal', 4);
 
 INSERT INTO coupons (code, type, value, min_order, max_uses, expires_at) VALUES
 ('WELCOME10', 'percentage', 10, 100, 100, DATE_ADD(NOW(), INTERVAL 1 YEAR)),

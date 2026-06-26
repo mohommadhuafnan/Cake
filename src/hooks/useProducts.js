@@ -5,27 +5,11 @@ import { supabase, isSupabaseConfigured, mapSupabaseProduct } from '../lib/supab
 
 const LOCAL_PRODUCTS_KEY = 'maison_admin_products'
 
-function mapLocalAdminProduct(row) {
-  return {
-    id: row.id,
-    name: { en: row.name_en, ar: row.name_ar },
-    description: { en: row.description_en || '', ar: row.description_ar || '' },
-    price: Number(row.price),
-    category: row.category || 'birthday',
-    image: row.image,
-    images: row.images?.length ? row.images : row.image ? [row.image] : [],
-    stock: row.stock ?? 0,
-    rating: Number(row.rating) || 4.5,
-    reviews: row.reviews ?? 0,
-    popular: row.popular ?? 80,
-  }
-}
-
 function mapApiProduct(row) {
   return {
     id: row.id,
-    name: { en: row.name_en, ar: row.name_ar },
-    description: { en: row.description_en || '', ar: row.description_ar || '' },
+    name: row.name || row.name_en || '',
+    description: row.description || row.description_en || '',
     price: Number(row.price),
     category: row.category || 'birthday',
     image: row.image,
@@ -34,6 +18,22 @@ function mapApiProduct(row) {
     rating: Number(row.rating) || 4.5,
     reviews: row.reviews ?? 0,
     popular: row.popular ?? (Number(row.rating) * 20 || 80),
+  }
+}
+
+function mapLocalAdminProduct(row) {
+  return {
+    id: row.id,
+    name: row.name || row.name_en || '',
+    description: row.description || row.description_en || '',
+    price: Number(row.price),
+    category: row.category || 'birthday',
+    image: row.image,
+    images: row.images?.length ? row.images : row.image ? [row.image] : [],
+    stock: row.stock ?? 0,
+    rating: Number(row.rating) || 4.5,
+    reviews: row.reviews ?? 0,
+    popular: row.popular ?? 80,
   }
 }
 

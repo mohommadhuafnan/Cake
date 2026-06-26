@@ -1,21 +1,42 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useLanguage } from '../context/LanguageContext'
-import { heroSlides } from '../data/homeContent'
+import { useCms } from '../context/SiteContext'
+import { heroSlides as fallback } from '../data/homeContent'
 
 const FALLBACK = 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1920&q=80'
 const BANNER_HEIGHT = 'h-[460px] md:h-[520px]'
 
+function mapSlide(s) {
+  const productId = s.meta?.product_id
+  const link = s.link || (productId ? `product/${productId}` : 'shop')
+  return {
+    id: s.id,
+    tag: s.tag,
+    title: s.title,
+    description: s.body,
+    cta: s.cta || 'Order Now',
+    image: s.image,
+    link: link.startsWith('/') ? link : `/${link}`,
+  }
+}
+
 export default function HeroBannerCarousel() {
-  const { lang, localized } = useLanguage()
+  const cmsSlides = useCms('hero_slide')
+  const heroSlides = cmsSlides.length > 0
+    ? cmsSlides.map(mapSlide)
+    : fallback.map((s) => ({ ...s, link: `/product/${s.productId}`, description: s.description }))
+
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
+    if (heroSlides.length === 0) return undefined
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % heroSlides.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [heroSlides.length])
+
+  if (heroSlides.length === 0) return null
 
   return (
     <section className="relative overflow-hidden bg-charcoal">
@@ -28,7 +49,6 @@ export default function HeroBannerCarousel() {
             }`}
             aria-hidden={i !== current}
           >
-            {/* Full-size background — same dimensions every slide */}
             <img
               src={slide.image}
               alt=""
@@ -37,33 +57,32 @@ export default function HeroBannerCarousel() {
               onError={(e) => { e.currentTarget.src = FALLBACK }}
             />
 
-            {/* Dark gradient — text on top */}
             <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/55 to-charcoal/25" />
 
-            {/* Content */}
             <div className="relative z-10 h-full max-w-7xl mx-auto px-6 md:px-8 flex items-center">
               <div className="max-w-xl text-white">
-                <span className="inline-block px-3 py-1 glass-ios text-xs uppercase tracking-widest mb-4 rounded-full text-gold">
-                  {localized(slide.tag)}
-                </span>
+                {slide.tag && (
+                  <span className="inline-block px-3 py-1 glass-ios text-xs uppercase tracking-widest mb-4 rounded-full text-gold">
+                    {slide.tag}
+                  </span>
+                )}
                 <h2 className="font-display text-3xl md:text-5xl lg:text-6xl mb-4 leading-tight">
-                  {localized(slide.title)}
+                  {slide.title}
                 </h2>
                 <p className="text-white/80 text-sm md:text-base mb-8 max-w-md leading-relaxed">
-                  {localized(slide.description)}
+                  {slide.description}
                 </p>
                 <Link
-                  to={`/product/${slide.productId}`}
+                  to={slide.link}
                   className="inline-flex items-center gap-2 px-8 py-3.5 bg-gold text-charcoal font-semibold uppercase tracking-wider text-sm hover:bg-white transition-all duration-300 hover:scale-105 shadow-lg"
                 >
-                  {localized(slide.cta)}
+                  {slide.cta}
                 </Link>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Dots */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {heroSlides.map((_, i) => (
             <button
@@ -75,7 +94,6 @@ export default function HeroBannerCarousel() {
           ))}
         </div>
 
-        {/* Arrows */}
         <button
           type="button"
           onClick={() => setCurrent((c) => (c - 1 + heroSlides.length) % heroSlides.length)}

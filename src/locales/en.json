@@ -70,8 +70,13 @@
     "title": "All Cakes",
     "subtitle": "Browse our complete collection",
     "search": "Search cakes...",
-    "filter": "Filter by category",
+    "filter": "Category",
     "all": "All",
+    "allItems": "All items",
+    "filters": "Filters",
+    "viewProduct": "View",
+    "noResults": "No cakes match your filters.",
+    "clearFilters": "Clear filters",
     "addToCart": "Add to Cart",
     "quickView": "Quick View",
     "outOfStock": "Out of Stock"
@@ -107,6 +112,10 @@
     "checkout": "Proceed to Checkout",
     "coupon": "Coupon Code",
     "apply": "Apply"
+  },
+  "offers": {
+    "title": "Special Offers",
+    "subtitle": "Save on your next order — copy a code or apply it directly"
   },
   "checkout": {
     "title": "Checkout",

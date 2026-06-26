@@ -4,8 +4,6 @@ import { useLanguage } from '../context/LanguageContext'
 const FALLBACK = 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&q=80'
 
 export default function PromoBanner({ banner }) {
-  const { lang, localized } = useLanguage()
-
   return (
     <section className="py-10 bg-ivory">
       <div className="max-w-7xl mx-auto px-6">
@@ -24,13 +22,13 @@ export default function PromoBanner({ banner }) {
           <div className="relative z-10 h-full flex items-center p-8 md:p-12 max-w-lg">
             <div>
               <h2 className="font-display text-3xl md:text-5xl text-white mb-2 group-hover:text-gold transition-colors duration-300">
-                {localized(banner.title)}
+                {banner.title}
               </h2>
               <p className="text-white/75 text-sm md:text-base mb-6 uppercase tracking-widest group-hover:text-white/90 transition-colors">
-                {localized(banner.subtitle)}
+                {banner.subtitle}
               </p>
               <span className="inline-flex items-center gap-2 px-6 py-2.5 bg-gold text-charcoal text-sm font-bold uppercase tracking-wider rounded-full group-hover:scale-105 transition-transform duration-300">
-                {localized(banner.cta)} →
+                {banner.cta} →
               </span>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { LanguageProvider } from './context/LanguageContext'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
+import { SiteProvider } from './context/SiteContext'
 import LoadingScreen from './components/LoadingScreen'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
@@ -53,13 +54,15 @@ function AppRoutes() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AuthProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </CartProvider>
-      </AuthProvider>
+      <SiteProvider>
+        <AuthProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </CartProvider>
+        </AuthProvider>
+      </SiteProvider>
     </LanguageProvider>
   )
 }

@@ -23,7 +23,7 @@ function truncate(text, max = 72) {
 }
 
 export default function CompactProductCard({ product }) {
-  const { lang, localized, t } = useLanguage()
+  const { t } = useLanguage()
   const { addItem } = useCart()
   const { isFavorite, toggle } = useWishlist(product.id)
   const [imgSrc, setImgSrc] = useState(product.image)
@@ -36,7 +36,7 @@ export default function CompactProductCard({ product }) {
   }
 
   const fullStars = Math.round(product.rating)
-  const description = truncate(localized(product.description))
+  const description = truncate(product.description)
 
   return (
     <article className="carousel-card-slot compact-product-card flex-shrink-0 w-[252px] md:w-[280px] h-[440px] bg-white rounded-2xl overflow-hidden border border-gray-100/80 shadow-sm group transition-all duration-500 hover:shadow-xl hover:-translate-y-2 flex flex-col">
@@ -44,7 +44,7 @@ export default function CompactProductCard({ product }) {
         <div className="relative h-[190px] md:h-[200px] flex-shrink-0 overflow-hidden bg-ivory">
           <img
             src={imgSrc}
-            alt={localized(product.name)}
+            alt={product.name}
             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
             onError={() => setImgSrc(FALLBACKS[product.id] || DEFAULT_FALLBACK)}
@@ -73,7 +73,7 @@ export default function CompactProductCard({ product }) {
           </div>
 
           <h3 className="font-display text-[15px] md:text-base text-charcoal leading-snug line-clamp-1 mb-1.5 group-hover:text-gold transition-colors duration-300">
-            {localized(product.name)}
+            {product.name}
           </h3>
 
           <p className="text-muted text-[11px] md:text-xs leading-relaxed line-clamp-2 mb-3 flex-1">
@@ -82,7 +82,7 @@ export default function CompactProductCard({ product }) {
 
           <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 mt-auto">
             <span className="font-semibold text-charcoal text-sm whitespace-nowrap">
-              {formatPrice(product.price, lang)}
+              {formatPrice(product.price)}
             </span>
             <button
               type="button"

@@ -1,25 +1,30 @@
 import { useState, useEffect } from 'react'
-import { useLanguage } from '../context/LanguageContext'
-import { announcements } from '../data/homeContent'
+import { useCms } from '../context/SiteContext'
+import { announcements as fallback } from '../data/homeContent'
 
 export default function AnnouncementBar() {
-  const { localized } = useLanguage()
+  const cmsItems = useCms('announcement')
+  const items = cmsItems.length > 0
+    ? cmsItems.map((a) => ({ id: a.id, text: a.body }))
+    : fallback
+
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
+    if (items.length === 0) return undefined
     const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % announcements.length)
+      setIndex((i) => (i + 1) % items.length)
     }, 4000)
     return () => clearInterval(interval)
-  }, [])
+  }, [items.length])
 
-  if (!visible) return null
+  if (!visible || items.length === 0) return null
 
   return (
     <div className="announcement-bar fixed top-0 left-0 right-0 z-[60] bg-charcoal text-white h-9 flex items-center justify-center text-xs tracking-wide overflow-hidden">
       <div className="announcement-slide flex items-center gap-2 px-4" key={index}>
-        <span className="animate-[heroFadeUp_0.5s_ease]">{localized(announcements[index].text)}</span>
+        <span className="animate-[heroFadeUp_0.5s_ease]">{items[index].text}</span>
       </div>
       <button
         onClick={() => setVisible(false)}
