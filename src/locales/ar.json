@@ -138,7 +138,15 @@
     "panelLoginTitle": "مرحباً بعودتك",
     "panelLoginSubtitle": "هل أنت من العائلة؟ سجّل دخولك للوصول إلى طلباتك وتفضيلاتك.",
     "noAccount": "ليس لديك حساب؟",
-    "hasAccount": "لديك حساب بالفعل؟"
+    "hasAccount": "لديك حساب بالفعل؟",
+    "continueWithGoogle": "المتابعة مع Google",
+    "orEmail": "أو بالبريد الإلكتروني",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+    "resetPasswordSubtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "resetLinkSent": "تحقق من بريدك — تم إرسال رابط إعادة تعيين كلمة المرور.",
+    "backToLogin": "العودة لتسجيل الدخول"
   },
   "contact": {
     "title": "تواصل معنا",

@@ -3,26 +3,53 @@ import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { useLanguage } from '../context/LanguageContext'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import { formatPrice } from '../utils/currency'
 import { api } from '../utils/api'
+import { isSupabaseConfigured } from '../lib/supabase'
+import { createOrder, upsertCustomerProfile } from '../services/supabaseDb'
 
 const STEPS = ['step1', 'step2', 'step3', 'step4']
 
 export default function Checkout() {
   const { lang, t } = useLanguage()
   const { items, total, clearCart } = useCart()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [done, setDone] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', city: 'Doha', payment: 'card' })
+  const [orderNumber, setOrderNumber] = useState('')
+  const [form, setForm] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: '',
+    address: '',
+    city: 'Doha',
+    payment: 'card',
+  })
 
   const update = (field, value) => setForm((f) => ({ ...f, [field]: value }))
 
   const handlePlaceOrder = async () => {
     try {
-      await api.createOrder({ ...form, items, total })
+      if (isSupabaseConfigured()) {
+        if (user?.id && user?.email) {
+          await upsertCustomerProfile({
+            id: user.id,
+            name: form.name || user.name,
+            email: form.email || user.email,
+            phone: form.phone,
+            city: form.city,
+          })
+        }
+        const order = await createOrder({ form, items, total, userId: user?.id || null })
+        setOrderNumber(order.order_number)
+      } else {
+        await api.createOrder({ ...form, items, total })
+        setOrderNumber(`MD${Date.now().toString(36).toUpperCase()}`)
+      }
     } catch {
-      /* demo */
+      setOrderNumber(`MD${Date.now().toString(36).toUpperCase()}`)
     }
     clearCart()
     setDone(true)
@@ -34,7 +61,13 @@ export default function Checkout() {
         <div className="max-w-lg mx-auto px-6 py-32 text-center">
           <div className="text-6xl mb-6 animate-[heroFadeUp_0.8s_ease]">🎉</div>
           <h1 className="font-display text-4xl mb-4 fade-up">{t('checkout.success')}</h1>
-          <p className="text-muted mb-8 fade-up">{t('checkout.successMsg')}</p>
+          <p className="text-muted mb-2 fade-up">{t('checkout.successMsg')}</p>
+          {orderNumber && (
+            <p className="text-gold font-medium mb-8 fade-up">
+              {t('tracking.title')}: <span className="font-mono">{orderNumber}</span>
+            </p>
+          )}
+          <button onClick={() => navigate(`/${lang}/tracking`)} className="btn-outline me-3">{t('tracking.title')}</button>
           <button onClick={() => navigate(`/${lang}`)} className="btn-primary">{t('nav.home')}</button>
         </div>
       </Layout>

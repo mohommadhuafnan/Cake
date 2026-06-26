@@ -94,6 +94,22 @@
   transform: translateY(-1px);
 }
 
+.auth-btn-google {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.06);
+  transition:
+    box-shadow 0.35s var(--auth-ease),
+    transform 0.35s var(--auth-spring),
+    border-color 0.35s var(--auth-ease);
+}
+
+.auth-btn-google:hover {
+  border-color: rgba(26, 26, 26, 0.2);
+  box-shadow: 0 4px 16px rgba(26, 26, 26, 0.1);
+}
+
 .auth-btn-glow {
   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   color: #ffffff;

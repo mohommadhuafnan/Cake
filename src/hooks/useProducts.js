@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from '../utils/api'
 import { products as staticProducts } from '../data/products'
+import { supabase, isSupabaseConfigured, mapSupabaseProduct } from '../lib/supabase'
 
 function mapApiProduct(row) {
   return {
@@ -28,6 +29,21 @@ export function useProducts() {
 
     async function load() {
       try {
+        if (isSupabaseConfigured()) {
+          const { data, error } = await supabase
+            .from('products')
+            .select('*, categories(slug)')
+            .eq('is_active', true)
+            .order('created_at', { ascending: false })
+
+          if (cancelled) return
+          if (!error && data?.length > 0) {
+            setProducts(data.map(mapSupabaseProduct))
+            setFromApi(true)
+            return
+          }
+        }
+
         const data = await api.getProducts()
         if (cancelled) return
         if (Array.isArray(data) && data.length > 0) {

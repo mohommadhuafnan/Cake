@@ -1,16 +1,21 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 import { useLanguage } from '../context/LanguageContext'
+import { useAuth } from '../context/AuthContext'
 import { api } from '../utils/api'
+import { isSupabaseConfigured } from '../lib/supabase'
+import { submitCustomCakeOrder } from '../services/supabaseDb'
 
 const STEPS = ['step1', 'step2', 'step3', 'step4']
 
 export default function CustomCake() {
   const { t } = useLanguage()
+  const { user } = useAuth()
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({
-    size: '', flavor: '', design: '', date: '', notes: '', name: '', email: '', phone: '',
+    size: '', flavor: '', design: '', date: '', notes: '',
+    name: user?.name || '', email: user?.email || '', phone: '',
   })
 
   const update = (field, value) => setForm((f) => ({ ...f, [field]: value }))
@@ -18,7 +23,11 @@ export default function CustomCake() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await api.submitCustomOrder(form)
+      if (isSupabaseConfigured()) {
+        await submitCustomCakeOrder(form, user?.id || null)
+      } else {
+        await api.submitCustomOrder(form)
+      }
     } catch {
       /* demo fallback */
     }
@@ -45,7 +54,6 @@ export default function CustomCake() {
           <p className="text-muted mt-3 fade-up">{t('custom.subtitle')}</p>
         </div>
 
-        {/* Progress */}
         <div className="flex items-center justify-between mb-12 fade-up">
           {STEPS.map((s, i) => (
             <div key={s} className="flex items-center flex-1">

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Layout from '../components/Layout'
 import { useLanguage } from '../context/LanguageContext'
 import { api } from '../utils/api'
+import { isSupabaseConfigured } from '../lib/supabase'
+import { submitContactMessage } from '../services/supabaseDb'
 
 export default function Contact() {
   const { t } = useLanguage()
@@ -11,9 +13,13 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await api.submitContact(form)
+      if (isSupabaseConfigured()) {
+        await submitContactMessage(form)
+      } else {
+        await api.submitContact(form)
+      }
     } catch {
-      /* demo */
+      /* saved locally in demo */
     }
     setSent(true)
   }

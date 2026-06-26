@@ -138,7 +138,15 @@
     "panelLoginTitle": "Welcome Back",
     "panelLoginSubtitle": "Already part of the family? Sign in to access your orders and preferences.",
     "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?"
+    "hasAccount": "Already have an account?",
+    "continueWithGoogle": "Continue with Google",
+    "orEmail": "or with email",
+    "forgotPassword": "Forgot password?",
+    "resetPasswordTitle": "Reset Password",
+    "resetPasswordSubtitle": "Enter your email and we'll send you a reset link.",
+    "sendResetLink": "Send Reset Link",
+    "resetLinkSent": "Check your inbox — a password reset link has been sent.",
+    "backToLogin": "Back to sign in"
   },
   "contact": {
     "title": "Get in Touch",
