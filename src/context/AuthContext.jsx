@@ -176,7 +176,7 @@ export function AuthProvider({ children }) {
 
     if (isSupabaseConfigured()) {
       const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${window.location.origin}/en/account`,
+        redirectTo: `${window.location.origin}/account`,
       })
       if (error) throw error
       return

@@ -20,7 +20,7 @@ export default function AdminCategoriesTab() {
 
   useEffect(() => { load() }, [load])
 
-  const startAdd = () => setForm({ slug: '', name_en: '', name_ar: '', sort_order: categories.length + 1 })
+  const startAdd = () => setForm({ slug: '', name_en: '', sort_order: categories.length + 1 })
   const startEdit = (c) => setForm({ ...c })
   const cancel = () => setForm(null)
 
@@ -31,7 +31,7 @@ export default function AdminCategoriesTab() {
       const payload = {
         slug: form.slug.trim().toLowerCase().replace(/\s+/g, '-'),
         name_en: form.name_en.trim(),
-        name_ar: form.name_ar.trim(),
+        name_ar: form.name_en.trim(),
         sort_order: Number(form.sort_order) || 0,
         image: form.image?.trim() || null,
       }
@@ -73,8 +73,7 @@ export default function AdminCategoriesTab() {
         <form onSubmit={handleSave} className="bg-white p-6 shadow-sm mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input label="Slug" value={form.slug} onChange={(v) => setForm({ ...form, slug: v })} placeholder="birthday" required />
           <Input label="Sort Order" type="number" value={form.sort_order} onChange={(v) => setForm({ ...form, sort_order: v })} />
-          <Input label="Name (English)" value={form.name_en} onChange={(v) => setForm({ ...form, name_en: v })} required />
-          <Input label="Name (Arabic)" value={form.name_ar} onChange={(v) => setForm({ ...form, name_ar: v })} dir="rtl" required />
+          <Input label="Name" value={form.name_en} onChange={(v) => setForm({ ...form, name_en: v })} required />
           <div className="md:col-span-2 flex gap-3">
             <button type="submit" className="btn-primary text-xs">Save</button>
             <button type="button" onClick={cancel} className="btn-outline text-xs">Cancel</button>
@@ -90,8 +89,7 @@ export default function AdminCategoriesTab() {
             <thead className="bg-ivory text-xs uppercase tracking-wider">
               <tr>
                 <th className="p-4 text-left">Slug</th>
-                <th className="p-4 text-left">English</th>
-                <th className="p-4 text-left">Arabic</th>
+                <th className="p-4 text-left">Name</th>
                 <th className="p-4 text-left">Order</th>
                 <th className="p-4 text-left">Actions</th>
               </tr>
@@ -101,7 +99,6 @@ export default function AdminCategoriesTab() {
                 <tr key={c.id} className="border-t border-gray-100">
                   <td className="p-4 font-mono text-xs">{c.slug}</td>
                   <td className="p-4">{c.name_en}</td>
-                  <td className="p-4" dir="rtl">{c.name_ar}</td>
                   <td className="p-4">{c.sort_order}</td>
                   <td className="p-4">
                     <button onClick={() => startEdit(c)} className="text-gold text-sm me-3">Edit</button>

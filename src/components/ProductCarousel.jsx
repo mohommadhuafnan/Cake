@@ -10,7 +10,7 @@ function PromoSideCard({ promo, lang, localized }) {
   return (
     <div className="carousel-card-slot flex-shrink-0">
       <Link
-        to={`/${lang}/${promo.link || 'shop'}`}
+        to={`/${promo.link || 'shop'}`}
         className="promo-side-card block h-[440px] w-[252px] md:w-[280px] rounded-2xl overflow-hidden relative group border border-gray-100/80 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
       >
         <img
@@ -130,7 +130,7 @@ export default function ProductCarousel({ title, subtitle, products, viewAllLink
 
       <div className="mt-10 md:mt-12 text-center fade-up" style={{ paddingInline: CONTAINER_PAD }}>
         <Link
-          to={`/${lang}/${viewAllLink}`}
+          to={`/${viewAllLink}`}
           className="inline-flex items-center gap-2 px-10 py-3.5 bg-charcoal text-white text-xs font-medium uppercase tracking-widest hover:bg-gold hover:text-charcoal transition-all duration-300"
         >
           {t('common.viewAll')} →

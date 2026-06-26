@@ -19,7 +19,7 @@ export default function ProductCard({ product, onQuickView }) {
 
   return (
     <div className="product-card stagger-card bg-white group">
-      <Link to={`/${lang}/product/${product.id}`} className="block">
+      <Link to={`/product/${product.id}`} className="block">
         <div className="relative overflow-hidden aspect-[4/5] bg-ivory">
           <img
             src={product.image}

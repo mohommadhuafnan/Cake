@@ -53,7 +53,7 @@ export default function HeroBannerCarousel() {
                   {localized(slide.description)}
                 </p>
                 <Link
-                  to={`/${lang}/product/${slide.productId}`}
+                  to={`/product/${slide.productId}`}
                   className="inline-flex items-center gap-2 px-8 py-3.5 bg-gold text-charcoal font-semibold uppercase tracking-wider text-sm hover:bg-white transition-all duration-300 hover:scale-105 shadow-lg"
                 >
                   {localized(slide.cta)}

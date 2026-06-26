@@ -12,7 +12,7 @@ export default function SpecialOfferCards() {
           {specialOffers.map((offer) => (
             <Link
               key={offer.id}
-              to={`/${lang}/${offer.link}`}
+              to={`/${offer.link}`}
               className={`offer-card stagger-card group relative overflow-hidden rounded-2xl bg-gradient-to-br ${offer.bg} min-h-[180px] flex flex-row items-center justify-between p-5 md:p-6 gap-4 transition-all duration-500 hover:shadow-xl hover:-translate-y-1`}
             >
               {/* Text — left */}

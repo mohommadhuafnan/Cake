@@ -124,7 +124,6 @@ export default function AdminProductsTab() {
                   </td>
                   <td className="p-4">
                     <p className="font-medium">{p.name_en}</p>
-                    <p className="text-muted text-xs" dir="rtl">{p.name_ar}</p>
                   </td>
                   <td className="p-4 capitalize text-muted">{p.categories?.slug || p.category || '—'}</td>
                   <td className="p-4 font-medium">{formatPrice(Number(p.price), 'en')}</td>

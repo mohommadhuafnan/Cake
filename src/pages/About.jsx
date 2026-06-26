@@ -45,7 +45,7 @@ export default function About() {
       </section>
 
       <section className="py-24 text-center">
-        <Link to={`/${lang}/shop`} className="btn-primary fade-up">{t('hero.cta')}</Link>
+        <Link to={`/shop`} className="btn-primary fade-up">{t('hero.cta')}</Link>
       </section>
     </Layout>
   )

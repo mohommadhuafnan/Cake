@@ -73,7 +73,7 @@ export default function CartDrawer() {
                 <span className="text-gold">{formatPrice(total, lang)}</span>
               </div>
               <Link
-                to={`/${lang}/checkout`}
+                to={`/checkout`}
                 onClick={() => setIsOpen(false)}
                 className="btn-primary w-full text-center"
               >

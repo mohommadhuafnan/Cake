@@ -40,7 +40,7 @@ export default function CompactProductCard({ product }) {
 
   return (
     <article className="carousel-card-slot compact-product-card flex-shrink-0 w-[252px] md:w-[280px] h-[440px] bg-white rounded-2xl overflow-hidden border border-gray-100/80 shadow-sm group transition-all duration-500 hover:shadow-xl hover:-translate-y-2 flex flex-col">
-      <Link to={`/${lang}/product/${product.id}`} className="flex flex-col flex-1 min-h-0">
+      <Link to={`/product/${product.id}`} className="flex flex-col flex-1 min-h-0">
         <div className="relative h-[190px] md:h-[200px] flex-shrink-0 overflow-hidden bg-ivory">
           <img
             src={imgSrc}

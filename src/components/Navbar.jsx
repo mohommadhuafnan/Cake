@@ -5,7 +5,7 @@ import { useState } from 'react'
 import AnnouncementBar from './AnnouncementBar'
 
 export default function Navbar() {
-  const { lang, setLang, t } = useLanguage()
+  const { t } = useLanguage()
   const { itemCount, setIsOpen } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
@@ -13,20 +13,18 @@ export default function Navbar() {
   const [search, setSearch] = useState('')
 
   const links = [
-    { to: `/${lang}/shop`, label: t('nav.shop') },
-    { to: `/${lang}/custom`, label: t('nav.custom') },
-    { to: `/${lang}/about`, label: t('nav.about') },
-    { to: `/${lang}/contact`, label: t('nav.contact') },
+    { to: '/shop', label: t('nav.shop') },
+    { to: '/custom', label: t('nav.custom') },
+    { to: '/about', label: t('nav.about') },
+    { to: '/contact', label: t('nav.contact') },
   ]
 
   const isActive = (to) => location.pathname.startsWith(to)
 
-  const toggleLang = () => setLang(lang === 'en' ? 'ar' : 'en')
-
   const handleSearch = (e) => {
     e.preventDefault()
     if (search.trim()) {
-      navigate(`/${lang}/shop?search=${encodeURIComponent(search.trim())}`)
+      navigate(`/shop?search=${encodeURIComponent(search.trim())}`)
       setSearch('')
     }
   }
@@ -36,7 +34,7 @@ export default function Navbar() {
       <AnnouncementBar />
       <nav className="navbar glass-nav fixed top-9 left-0 right-0 z-50 px-3 md:px-5 py-2">
         <div className="max-w-7xl mx-auto flex items-center gap-2 md:gap-4">
-          <Link to={`/${lang}`} className="navbar-logo font-display text-lg md:text-xl font-bold text-charcoal tracking-wide shrink-0">
+          <Link to="/" className="navbar-logo font-display text-lg md:text-xl font-bold text-charcoal tracking-wide shrink-0">
             {t('brand')}
           </Link>
 
@@ -72,15 +70,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-3 ms-auto shrink-0">
-            <button
-              onClick={toggleLang}
-              className="text-[10px] uppercase tracking-wider font-medium text-charcoal/70 hover:text-gold glass-ios px-2 py-1 rounded-md transition-colors"
-              aria-label="Switch language"
-            >
-              {lang === 'en' ? 'عربي' : 'EN'}
-            </button>
-
-            <Link to={`/${lang}/account`} className="hidden sm:block text-charcoal/70 hover:text-gold transition-colors p-1" aria-label="Account">
+            <Link to="/account" className="hidden sm:block text-charcoal/70 hover:text-gold transition-colors p-1" aria-label="Account">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -121,7 +111,7 @@ export default function Navbar() {
           <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('shop.search')} className="input-field rounded-full text-sm py-2" />
         </form>
         <div className="flex flex-col gap-4">
-          <Link to={`/${lang}`} onClick={() => setMobileOpen(false)} className="text-base font-display text-charcoal hover:text-gold transition-colors">{t('nav.home')}</Link>
+          <Link to="/" onClick={() => setMobileOpen(false)} className="text-base font-display text-charcoal hover:text-gold transition-colors">{t('nav.home')}</Link>
           {links.map((link) => (
             <Link key={link.to} to={link.to} onClick={() => setMobileOpen(false)} className="text-base font-display text-charcoal hover:text-gold transition-colors">
               {link.label}

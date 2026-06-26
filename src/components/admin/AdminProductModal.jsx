@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react'
 
 const EMPTY = {
   name_en: '',
-  name_ar: '',
   description_en: '',
-  description_ar: '',
   price: '',
   category_id: '',
   image: '',
@@ -23,9 +21,7 @@ export default function AdminProductModal({ open, product, categories, onClose, 
     if (product) {
       setForm({
         name_en: product.name_en || '',
-        name_ar: product.name_ar || '',
         description_en: product.description_en || '',
-        description_ar: product.description_ar || '',
         price: String(product.price ?? ''),
         category_id: String(product.category_id ?? ''),
         image: product.image || '',
@@ -51,9 +47,9 @@ export default function AdminProductModal({ open, product, categories, onClose, 
     e.preventDefault()
     onSave({
       name_en: form.name_en.trim(),
-      name_ar: form.name_ar.trim(),
+      name_ar: form.name_en.trim(),
       description_en: form.description_en.trim(),
-      description_ar: form.description_ar.trim(),
+      description_ar: form.description_en.trim(),
       price: Number(form.price),
       category_id: form.category_id ? Number(form.category_id) : null,
       image: form.image.trim(),
@@ -78,15 +74,8 @@ export default function AdminProductModal({ open, product, categories, onClose, 
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Name (English)" value={form.name_en} onChange={set('name_en')} required />
-            <Field label="Name (Arabic)" value={form.name_ar} onChange={set('name_ar')} required dir="rtl" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextArea label="Description (English)" value={form.description_en} onChange={set('description_en')} />
-            <TextArea label="Description (Arabic)" value={form.description_ar} onChange={set('description_ar')} dir="rtl" />
-          </div>
+          <Field label="Name" value={form.name_en} onChange={set('name_en')} required />
+          <TextArea label="Description" value={form.description_en} onChange={set('description_en')} />
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Field label="Price (QAR)" type="number" min="0" step="0.01" value={form.price} onChange={set('price')} required />

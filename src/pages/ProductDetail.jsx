@@ -21,7 +21,7 @@ export default function ProductDetail() {
       <Layout>
         <div className="text-center py-32">
           <p className="text-muted mb-4">Product not found</p>
-          <Link to={`/${lang}/shop`} className="btn-outline">{t('nav.shop')}</Link>
+          <Link to={`/shop`} className="btn-outline">{t('nav.shop')}</Link>
         </div>
       </Layout>
     )

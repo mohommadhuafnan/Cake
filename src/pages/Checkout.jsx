@@ -67,15 +67,15 @@ export default function Checkout() {
               {t('tracking.title')}: <span className="font-mono">{orderNumber}</span>
             </p>
           )}
-          <button onClick={() => navigate(`/${lang}/tracking`)} className="btn-outline me-3">{t('tracking.title')}</button>
-          <button onClick={() => navigate(`/${lang}`)} className="btn-primary">{t('nav.home')}</button>
+          <button onClick={() => navigate(`/tracking`)} className="btn-outline me-3">{t('tracking.title')}</button>
+          <button onClick={() => navigate(`/`)} className="btn-primary">{t('nav.home')}</button>
         </div>
       </Layout>
     )
   }
 
   if (items.length === 0) {
-    navigate(`/${lang}/shop`)
+    navigate(`/shop`)
     return null
   }
 

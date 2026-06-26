@@ -89,8 +89,7 @@ function OrEmailDivider({ label }) {
 }
 
 export default function AuthUI({ onSubmit, onGoogleSignIn, onResetPassword, error, success, loading }) {
-  const { lang, t } = useLanguage()
-  const isRtl = lang === 'ar'
+  const { t } = useLanguage()
   const [isSignup, setIsSignup] = useState(false)
   const [showForgot, setShowForgot] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', password: '' })
@@ -113,14 +112,10 @@ export default function AuthUI({ onSubmit, onGoogleSignIn, onResetPassword, erro
     onResetPassword?.(form.email)
   }
 
-  const panelX = isSignup
-    ? '0%'
-    : isRtl
-      ? '-100%'
-      : '100%'
+  const panelX = isSignup ? '0%' : '100%'
 
   return (
-    <div className="auth-shell relative flex items-center justify-center overflow-x-hidden overflow-y-auto px-3 py-6 sm:px-5 sm:py-8 md:px-6 md:py-10 lg:items-center" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="auth-shell relative flex items-center justify-center overflow-x-hidden overflow-y-auto px-3 py-6 sm:px-5 sm:py-8 md:px-6 md:py-10 lg:items-center" dir="ltr">
       {/* Animated background */}
       <motion.div
         className={`absolute inset-0 auth-gradient-bg ${isSignup ? 'auth-gradient-bg--signup' : ''}`}
@@ -156,7 +151,7 @@ export default function AuthUI({ onSubmit, onGoogleSignIn, onResetPassword, erro
 
       {/* Back link */}
       <Link
-        to={`/${lang}`}
+        to="/"
         className="auth-back-link absolute top-4 start-4 sm:top-6 sm:start-6 z-30 flex items-center gap-2 text-sm transition-colors"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

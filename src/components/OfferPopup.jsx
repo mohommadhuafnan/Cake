@@ -42,7 +42,7 @@ export default function OfferPopup() {
         </div>
 
         <Link
-          to={`/${lang}/shop`}
+          to={`/shop`}
           onClick={dismiss}
           className="btn-primary w-full block"
         >

@@ -10,10 +10,10 @@ export default function CategoryNav() {
       <div className="max-w-7xl mx-auto px-3 md:px-5 flex items-center gap-0 min-w-max md:min-w-0 md:justify-center">
         {categoryNav.map((cat) => {
           const to = cat.link
-            ? `/${lang}/${cat.link}`
+            ? `/${cat.link}`
             : cat.id === 'all'
-              ? `/${lang}/shop`
-              : `/${lang}/shop?category=${cat.id}`
+              ? `/shop`
+              : `/shop?category=${cat.id}`
 
           return (
             <Link

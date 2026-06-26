@@ -10,7 +10,7 @@ export default function PromoBanner({ banner }) {
     <section className="py-10 bg-ivory">
       <div className="max-w-7xl mx-auto px-6">
         <Link
-          to={`/${lang}/${banner.link}`}
+          to={`/${banner.link}`}
           className="promo-banner group relative block overflow-hidden rounded-2xl h-[280px] md:h-[320px] fade-up"
         >
           <img

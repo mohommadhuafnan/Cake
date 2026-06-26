@@ -39,6 +39,25 @@
     "customers": "Happy Customers",
     "years": "Years of Excellence"
   },
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "fresh": {
+      "title": "Fresh Ingredients",
+      "subtitle": "Only the finest, locally sourced ingredients"
+    },
+    "custom": {
+      "title": "Custom Designs",
+      "subtitle": "Unique cakes tailored to your vision"
+    },
+    "delivery": {
+      "title": "Same Day Delivery",
+      "subtitle": "Fast delivery across Qatar"
+    },
+    "quality": {
+      "title": "100% Quality Guaranteed",
+      "subtitle": "Perfection in every bite, every time"
+    }
+  },
   "about": {
     "title": "Our Story",
     "subtitle": "A legacy of sweetness in Qatar",

@@ -12,7 +12,7 @@ export default function CategoryShowcase() {
           {showcaseCategories.map((cat) => (
             <Link
               key={cat.id}
-              to={`/${lang}/${cat.link}`}
+              to={`/${cat.link}`}
               className="showcase-card stagger-card group relative overflow-hidden rounded-2xl min-h-[320px] md:min-h-[400px] flex flex-col transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
             >
               {/* Full-size background image */}

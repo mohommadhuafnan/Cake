@@ -16,7 +16,7 @@ export default function CartPage() {
         {items.length === 0 ? (
           <div className="text-center py-16 fade-up">
             <p className="text-muted mb-6">{t('cart.empty')}</p>
-            <Link to={`/${lang}/shop`} className="btn-primary">{t('nav.shop')}</Link>
+            <Link to={`/shop`} className="btn-primary">{t('nav.shop')}</Link>
           </div>
         ) : (
           <>
@@ -43,7 +43,7 @@ export default function CartPage() {
               <div className="flex justify-between mb-2"><span>{t('cart.subtotal')}</span><span>{formatPrice(subtotal, lang)}</span></div>
               {discount > 0 && <div className="flex justify-between mb-2 text-green-600"><span>{t('cart.discount')}</span><span>-{formatPrice(discount, lang)}</span></div>}
               <div className="flex justify-between text-xl font-medium mb-8"><span>{t('cart.total')}</span><span className="text-gold">{formatPrice(total, lang)}</span></div>
-              <Link to={`/${lang}/checkout`} className="btn-primary">{t('cart.checkout')}</Link>
+              <Link to={`/checkout`} className="btn-primary">{t('cart.checkout')}</Link>
             </div>
           </>
         )}

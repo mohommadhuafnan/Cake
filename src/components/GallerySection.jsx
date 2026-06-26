@@ -23,7 +23,7 @@ const SLOTS = [
 function GalleryTile({ item, slotClass, lang, localized, t }) {
   return (
     <Link
-      to={`/${lang}/product/${item.id}`}
+      to={`/product/${item.id}`}
       className={`gallery-item stagger-card group relative overflow-hidden rounded-3xl bg-white ${slotClass} block transition-all duration-500 hover:shadow-xl hover:-translate-y-1`}
     >
       <img

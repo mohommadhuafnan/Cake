@@ -80,10 +80,10 @@ export default function HeroSection() {
             done ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <Link to={`/${lang}/shop`} className="btn-primary btn-shimmer px-10">
+          <Link to={`/shop`} className="btn-primary btn-shimmer px-10">
             {t('hero.cta')}
           </Link>
-          <Link to={`/${lang}/custom`} className="btn-glass px-10">
+          <Link to={`/custom`} className="btn-glass px-10">
             {t('hero.ctaSecondary')}
           </Link>
         </div>

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { LanguageProvider } from './context/LanguageContext'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
@@ -15,38 +15,11 @@ import Account from './pages/Account'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Admin from './pages/Admin'
-import LangSync from './components/LangSync'
 
-function LangRedirect() {
-  const stored = localStorage.getItem('lang')
-  const browserLang = navigator.language?.split('-')[0]
-  const lang = stored || (browserLang === 'ar' ? 'ar' : 'en')
-  return <Navigate to={`/${lang}`} replace />
-}
-
-function LocalizedRoutes() {
-  const { lang } = useParams()
-  if (lang !== 'en' && lang !== 'ar') {
-    return <Navigate to="/en" replace />
-  }
-
-  return (
-    <LangSync>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
-        <Route path="product/:id" element={<ProductDetail />} />
-        <Route path="custom" element={<CustomCake />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="checkout" element={<Checkout />} />
-        <Route path="tracking" element={<OrderTracking />} />
-        <Route path="account" element={<Account />} />
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="*" element={<Navigate to={`/${lang}`} replace />} />
-      </Routes>
-    </LangSync>
-  )
+function LegacyLangRedirect() {
+  const location = useLocation()
+  const path = location.pathname.replace(/^\/(en|ar)(?=\/|$)/, '') || '/'
+  return <Navigate to={`${path}${location.search}${location.hash}`} replace />
 }
 
 function AppRoutes() {
@@ -59,10 +32,20 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<LangRedirect />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/shop" element={<Shop />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/custom" element={<CustomCake />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/tracking" element={<OrderTracking />} />
+      <Route path="/account" element={<Account />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/admin/*" element={<Admin />} />
-      <Route path="/:lang/*" element={<LocalizedRoutes />} />
-      <Route path="*" element={<LangRedirect />} />
+      <Route path="/en/*" element={<LegacyLangRedirect />} />
+      <Route path="/ar/*" element={<LegacyLangRedirect />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

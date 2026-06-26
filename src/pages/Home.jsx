@@ -17,6 +17,7 @@ import { promoBanners } from '../data/homeContent'
 import { triggerAddToCartAnimation } from '../hooks/useScrollAnimations'
 import { useProducts } from '../hooks/useProducts'
 import HeroSection from '../components/HeroSection'
+import WhyChooseUs from '../components/WhyChooseUs'
 
 export default function Home() {
   const { lang, t, localized } = useLanguage()
@@ -111,10 +112,12 @@ export default function Home() {
             <h2 className="font-display text-4xl mb-2 fade-up">{t('about.title')}</h2>
             <p className="text-gold uppercase tracking-widest text-sm mb-6 fade-up">{t('about.subtitle')}</p>
             <p className="text-muted leading-relaxed mb-8 fade-up">{t('about.text')}</p>
-            <Link to={`/${lang}/about`} className="btn-outline fade-up">{t('nav.about')}</Link>
+            <Link to={`/about`} className="btn-outline fade-up">{t('nav.about')}</Link>
           </div>
         </div>
       </section>
+
+      <WhyChooseUs />
 
       {/* Stats */}
       <section className="stats-section py-20 bg-charcoal text-white">
@@ -141,7 +144,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto px-6">
           <h2 className="font-display text-4xl mb-4 fade-up">{t('custom.title')}</h2>
           <p className="text-muted mb-8 fade-up">{t('custom.subtitle')}</p>
-          <Link to={`/${lang}/custom`} className="btn-primary fade-up">{t('hero.ctaSecondary')}</Link>
+          <Link to={`/custom`} className="btn-primary fade-up">{t('hero.ctaSecondary')}</Link>
         </div>
       </section>
 

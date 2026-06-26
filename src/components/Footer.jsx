@@ -32,18 +32,18 @@ export default function Footer() {
           <div>
             <h4 className="font-display text-lg mb-4">{t('nav.shop')}</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to={`/${lang}/shop`} className="hover:text-gold transition-colors">{t('categories.wedding')}</Link></li>
-              <li><Link to={`/${lang}/shop`} className="hover:text-gold transition-colors">{t('categories.birthday')}</Link></li>
-              <li><Link to={`/${lang}/custom`} className="hover:text-gold transition-colors">{t('nav.custom')}</Link></li>
+              <li><Link to={`/shop`} className="hover:text-gold transition-colors">{t('categories.wedding')}</Link></li>
+              <li><Link to={`/shop`} className="hover:text-gold transition-colors">{t('categories.birthday')}</Link></li>
+              <li><Link to={`/custom`} className="hover:text-gold transition-colors">{t('nav.custom')}</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-display text-lg mb-4">{t('nav.about')}</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to={`/${lang}/about`} className="hover:text-gold transition-colors">{t('about.title')}</Link></li>
-              <li><Link to={`/${lang}/contact`} className="hover:text-gold transition-colors">{t('nav.contact')}</Link></li>
-              <li><Link to={`/${lang}/tracking`} className="hover:text-gold transition-colors">{t('tracking.title')}</Link></li>
+              <li><Link to={`/about`} className="hover:text-gold transition-colors">{t('about.title')}</Link></li>
+              <li><Link to={`/contact`} className="hover:text-gold transition-colors">{t('nav.contact')}</Link></li>
+              <li><Link to={`/tracking`} className="hover:text-gold transition-colors">{t('tracking.title')}</Link></li>
             </ul>
           </div>
 

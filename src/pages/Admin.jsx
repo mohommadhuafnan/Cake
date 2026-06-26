@@ -34,13 +34,13 @@ export default function Admin() {
   }
 
   if (!isAuthenticated || !isAdminEmail(user?.email)) {
-    return <Navigate to="/en/account" replace />
+    return <Navigate to="/account" replace />
   }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
       <aside className="w-full lg:w-64 bg-charcoal text-white p-6 lg:min-h-screen flex flex-col shrink-0">
-        <Link to="/en" className="font-display text-xl text-gold mb-1 hover:opacity-80">Maison Douceur</Link>
+        <Link to="/" className="font-display text-xl text-gold mb-1 hover:opacity-80">Maison Douceur</Link>
         <p className="text-xs text-gray-400 mb-1 truncate">{user.email}</p>
         <p className="text-[10px] text-gold/70 mb-6 uppercase tracking-widest">
           {isSupabaseConfigured() ? '● Live database' : '○ Local demo mode'}
