@@ -52,11 +52,13 @@ export default function ProductDetail() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-16">
           <div>
-            <img
-              src={images[activeImage]}
-              alt={product.name}
-              className="slide-image slide-image--left w-full aspect-square object-cover bg-ivory mb-4"
-            />
+            <div className="rounded-2xl overflow-hidden bg-ivory mb-4">
+              <img
+                src={images[activeImage]}
+                alt={product.name}
+                className="slide-image slide-image--left w-full aspect-square object-cover"
+              />
+            </div>
             <div className="flex gap-3">
               {images.map((img, i) => (
                 <button

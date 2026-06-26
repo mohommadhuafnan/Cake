@@ -50,10 +50,6 @@ export function useScrollAnimations() {
       { threshold: OBSERVER_THRESHOLD }
     )
 
-    document.querySelectorAll('.fade-up, .slide-image, .progress-bar-fill').forEach((el) => {
-      observer.observe(el)
-    })
-
     const staggerObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -69,10 +65,6 @@ export function useScrollAnimations() {
       { threshold: OBSERVER_THRESHOLD }
     )
 
-    document.querySelectorAll('.stagger-grid').forEach((grid) => {
-      staggerObserver.observe(grid)
-    })
-
     const countObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -87,15 +79,48 @@ export function useScrollAnimations() {
       { threshold: OBSERVER_THRESHOLD }
     )
 
-    document.querySelectorAll('.stats-section').forEach((section) => {
-      countObserver.observe(section)
+    const observeAnimated = (root = document) => {
+      root.querySelectorAll('.fade-up, .slide-image, .progress-bar-fill').forEach((el) => {
+        if (el.dataset.scrollObserved) return
+        el.dataset.scrollObserved = '1'
+        observer.observe(el)
+      })
+
+      root.querySelectorAll('.stagger-grid').forEach((grid) => {
+        if (grid.dataset.scrollObserved) return
+        grid.dataset.scrollObserved = '1'
+        staggerObserver.observe(grid)
+      })
+
+      root.querySelectorAll('.stats-section').forEach((section) => {
+        if (section.dataset.scrollObserved) return
+        section.dataset.scrollObserved = '1'
+        countObserver.observe(section)
+      })
+    }
+
+    observeAnimated()
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return
+          observeAnimated(node)
+        })
+      })
     })
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
       observer.disconnect()
       staggerObserver.disconnect()
       countObserver.disconnect()
+      mutationObserver.disconnect()
+      document.querySelectorAll('[data-scroll-observed]').forEach((el) => {
+        delete el.dataset.scrollObserved
+      })
     }
   }, [location.pathname])
 }

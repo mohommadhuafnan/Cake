@@ -4,7 +4,6 @@ import Layout from '../components/Layout'
 import { useLanguage } from '../context/LanguageContext'
 import { useProducts } from '../hooks/useProducts'
 import { useCategories } from '../hooks/useCategories'
-import DiscountOffers from '../components/DiscountOffers'
 import CategoryBrowse from '../components/shop/CategoryBrowse'
 import ShopFilters from '../components/shop/ShopFilters'
 import ShopProductCard from '../components/shop/ShopProductCard'
@@ -81,8 +80,6 @@ export default function Shop() {
 
   return (
     <Layout title={t('shop.title')} description={t('shop.subtitle')} showCategoryNav>
-      <DiscountOffers />
-
       <CategoryBrowse activeCategory={activeCategory} />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
